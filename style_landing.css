@@ -282,12 +282,52 @@ input, select, textarea {
   box-shadow: 0 6px 20px rgba(5, 74, 41, 0.35);
 }
 
-/* Mobile Menu Button */
+/* Mobile Menu Button & Drawer */
 .mobile-menu-toggle {
   display: none;
   background: transparent;
   padding: 8px;
   color: var(--neutral-800);
+  border-radius: var(--radius-sm);
+}
+
+.mobile-menu-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--neutral-200);
+  box-shadow: var(--shadow-xl);
+  padding: 20px 24px 28px;
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.mobile-menu-drawer.active {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mobile-nav-item {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--neutral-800);
+  display: block;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--neutral-200);
 }
 
 /* ────────────── HERO SECTION ────────────── */
@@ -1314,31 +1354,85 @@ input, select, textarea {
 }
 
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
+  .nav-links,
+  .btn-nav-outline {
+    display: none !important;
   }
   .mobile-menu-toggle {
     display: block;
+  }
+  .container {
+    padding: 0 16px;
+  }
+  .section-wrapper {
+    padding: 56px 0;
+  }
+  .hero-section {
+    padding: 40px 0 60px;
+  }
+  .hero-headline {
+    font-size: clamp(26px, 7.5vw, 36px);
+  }
+  .hero-subhead {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  .hero-cta-box {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-hero-primary,
+  .btn-hero-gold {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
   }
   .pillars-wheel-container,
   .steps-grid,
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .pillars-center-banner {
     grid-column: span 1;
     flex-direction: column;
     text-align: center;
+    padding: 24px 20px;
   }
   .quiz-card-container {
-    padding: 24px;
+    padding: 18px 14px;
   }
-  .hero-headline {
-    font-size: 30px;
+  .quiz-q-header {
+    flex-wrap: wrap;
+  }
+  .quiz-options-group {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .quiz-results-panel {
+    position: static;
+    margin-top: 24px;
+    padding: 24px 16px;
+  }
+  .gift-hero-box {
+    padding: 28px 20px;
+  }
+  .gift-val-tag {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  .coach-card-layout {
+    padding: 28px 20px;
+  }
+  .lead-section-card {
+    padding: 24px 16px;
   }
   .footer-bottom {
     flex-direction: column;
     gap: 12px;
     text-align: center;
+  }
+  .top-bar {
+    font-size: 11.5px;
+    padding: 8px 12px;
   }
 }

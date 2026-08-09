@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>XV Business Health Index — Bộ Chỉ Số Sức Khỏe Doanh Nghiệp | Master Coach Ngô Xuân Vũ</title>
   <meta name="description" content="Chẩn đoán 12 trụ cột sức khỏe doanh nghiệp, định vị điểm nghẽn & bứt phá tăng trưởng bền vững cùng Master Coach Ngô Xuân Vũ - XV.NLP Academy.">
   <link rel="icon" type="image/png" href="logo.png" />
@@ -20,7 +20,7 @@
   <!-- ────────────── TOP ANNOUNCEMENT BAR ────────────── -->
   <div class="top-bar">
     <div class="pulse-beacon"></div>
-    <span><strong>XV BUSINESS HEALTH INDEX</strong> — Hiểu Đúng • Làm Đúng • Tăng Trưởng Bền Vững | Quà Tặng Coaching CEO Trị Giá <span class="highlight">26.678.000 VNĐ</span></span>
+    <span><strong>XV BUSINESS HEALTH INDEX</strong> — Hiểu Đúng • Làm Đúng • Tăng Trưởng Bền Vững | Quà Tặng Coaching CEO</span>
   </div>
 
   <!-- ────────────── STICKY NAVBAR ────────────── -->
@@ -34,6 +34,7 @@
         </div>
       </a>
 
+      <!-- Desktop Nav Links -->
       <ul class="nav-links">
         <li><a href="#tru-cot" class="nav-item-link">12 Trụ Cột</a></li>
         <li><a href="#danh-gia" class="nav-item-link">Đánh Giá 3 Phút</a></li>
@@ -43,15 +44,30 @@
       </ul>
 
       <div class="nav-actions">
-        <a href="tel:0818683339" class="btn-nav-outline">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          08 18 68 33 39
-        </a>
         <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-nav-cta">
           Đăng Ký Zalo
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-menu-toggle" id="mobile-toggle-btn" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Slide-out Menu -->
+    <div class="mobile-menu-drawer" id="mobile-drawer">
+      <ul class="mobile-nav-list">
+        <li><a href="#tru-cot" class="mobile-nav-item">12 Trụ Cột Sức Khỏe</a></li>
+        <li><a href="#danh-gia" class="mobile-nav-item">Đánh Giá 3 Phút</a></li>
+        <li><a href="#qua-tang" class="mobile-nav-item">Quà Tặng CEO</a></li>
+        <li><a href="#quy-trinh" class="mobile-nav-item">Quy Trình 4 Bước</a></li>
+        <li><a href="#chuyen-gia" class="mobile-nav-item">Chuyên Gia Ngô Xuân Vũ</a></li>
+      </ul>
+      <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-hero-primary" style="width: 100%; margin-top: 20px;">
+        Tham Gia Nhóm Zalo Đăng Ký →
+      </a>
     </div>
   </header>
 
@@ -83,7 +99,7 @@
           </div>
           <div class="hero-highlight-item">
             <div class="check-icon-circle">✓</div>
-            <span>Nhận ngay 01 phiên Coaching Chiến Lược CEO 60 Phút (26.678.000 VNĐ)</span>
+            <span>Nhận ngay 01 phiên Coaching Chiến Lược CEO 60 Phút</span>
           </div>
         </div>
 
@@ -108,7 +124,7 @@
                 <h4>NGÔ XUÂN VŨ</h4>
                 <p>NLP Master Coach • XV.NLP Academy</p>
               </div>
-              <div style="background: var(--gold); color: var(--neutral-900); font-weight: 800; font-size: 12px; padding: 6px 12px; border-radius: 8px;">
+              <div class="hero-badge-chip">
                 10+ NĂM COACHING CEO
               </div>
             </div>
@@ -134,8 +150,8 @@
         <div class="stat-desc">Coaching Chiến Lược CEO 1:1</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number">26.678K</div>
-        <div class="stat-desc">Giá Trị Phần Quà Dành Cho CEO</div>
+        <div class="stat-number">100%</div>
+        <div class="stat-desc">Đặc Quyền Dành Cho CEO</div>
       </div>
     </div>
   </section>
@@ -154,7 +170,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">01</div>
-            <div class="pillar-icon-wrapper">🎯</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
           </div>
           <h3>Tư Duy Lãnh Đạo & Tầm Nhìn</h3>
           <p>Tư duy chiến lược của CEO, khả năng xác định tầm nhìn dài hạn và truyền lửa nhất quán đến toàn bộ đội ngũ nhân sự.</p>
@@ -168,7 +186,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">02</div>
-            <div class="pillar-icon-wrapper">📈</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
           </div>
           <h3>Chiến Lược Kinh Doanh</h3>
           <p>Lộ trình phát triển sản phẩm, định vị cạnh tranh, mục tiêu doanh thu rõ ràng và kế hoạch triển khai theo từng giai đoạn.</p>
@@ -182,7 +202,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">03</div>
-            <div class="pillar-icon-wrapper">👥</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
           </div>
           <h3>Khách Hàng & Thị Trường</h3>
           <p>Xác định chính xác chân dung khách hàng mục tiêu, hiểu rõ nỗi đau nhu cầu và làm chủ dung lượng thị trường.</p>
@@ -196,7 +218,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">04</div>
-            <div class="pillar-icon-wrapper">📣</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            </div>
           </div>
           <h3>Marketing Multi-Channel</h3>
           <p>Xây dựng hệ thống thu hút khách hàng tiềm năng tự động đa kênh, thông điệp thu hút và tối ưu chi phí quảng cáo ROI.</p>
@@ -210,7 +234,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">05</div>
-            <div class="pillar-icon-wrapper">🤝</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
           </div>
           <h3>Hệ Thống Bán Hàng (Sales)</h3>
           <p>Kịch bản chốt sale chuẩn hóa, kỹ năng đội ngũ kinh doanh, quy trình xử lý từ chối và tỷ lệ chuyển đổi tối ưu.</p>
@@ -224,7 +250,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">06</div>
-            <div class="pillar-icon-wrapper">💖</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
           </div>
           <h3>Chăm Sóc Khách Hàng</h3>
           <p>Quy trình hậu mãi chu đáo, duy trì tỷ lệ giữ chân (Retention Rate), tăng giá trị trọn đời (LTV) và tạo làn sóng Referral.</p>
@@ -238,7 +266,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">07</div>
-            <div class="pillar-icon-wrapper">🏆</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            </div>
           </div>
           <h3>Đội Ngũ Nhân Sự</h3>
           <p>Tuyển dụng đúng người, đào tạo nâng cao năng lực, xây dựng văn hóa gắn kết và chính sách giữ chân nhân tài.</p>
@@ -252,7 +282,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">08</div>
-            <div class="pillar-icon-wrapper">⚙️</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
           </div>
           <h3>Hệ Thống Vận Hành (SOP, KPI, Dashboard)</h3>
           <p>Chuẩn hóa quy trình thao tác chuẩn (SOP), quản trị mục tiêu qua KPI minh bạch và báo cáo Dashboard theo thời gian thực.</p>
@@ -266,7 +298,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">09</div>
-            <div class="pillar-icon-wrapper">⚖️</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8l7-5 7 5"/><path d="M3 13l4 4 4-4"/><path d="M13 13l4 4 4-4"/></svg>
+            </div>
           </div>
           <h3>Pháp Lý & Kế Toán</h3>
           <p>Tuân thủ pháp luật doanh nghiệp, bảo vệ tài sản trí tuệ thương hiệu và hệ thống sổ sách kế toán thuế minh bạch.</p>
@@ -280,7 +314,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">10</div>
-            <div class="pillar-icon-wrapper">💰</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
           </div>
           <h3>Tài Chính (Doanh Thu, Lợi Nhuận, Dòng Tiền)</h3>
           <p>Quản trị tỷ suất lợi nhuận gộp/ròng, kiểm soát dòng tiền mặt (Cashflow) và xây dựng quỹ dự phòng rủi ro tài chính.</p>
@@ -294,7 +330,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">11</div>
-            <div class="pillar-icon-wrapper">🤖</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
+            </div>
           </div>
           <h3>AI & Chuyển Đổi Số</h3>
           <p>Ứng dụng công cụ Trí tuệ nhân tạo (AI), tự động hóa quy trình làm việc và số hóa toàn bộ dữ liệu quản trị.</p>
@@ -308,7 +346,9 @@
         <div class="pillar-card">
           <div class="pillar-card-header">
             <div class="pillar-num">12</div>
-            <div class="pillar-icon-wrapper">🌱</div>
+            <div class="pillar-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20l4-16 4 16"/><path d="M6 12h10"/></svg>
+            </div>
           </div>
           <h3>Tăng Trưởng Bền Vững</h3>
           <p>Khả năng nhân bản quy mô, mở rộng chuỗi chi nhánh và giải phóng hoàn toàn sự phụ thuộc của doanh nghiệp vào CEO.</p>
@@ -379,13 +419,14 @@
     <div class="container">
       <div class="gift-hero-box">
         <div class="gift-ribbon-tag">
-          🎀 QUÀ TẶNG DÀNH RIÊNG CHO CEO & CHỦ DOANH NGHIỆP
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          QUÀ TẶNG DÀNH RIÊNG CHO CEO & CHỦ DOANH NGHIỆP
         </div>
 
         <div class="gift-grid">
           <div>
             <h2 class="gift-title">01 PHIÊN COACHING CHIẾN LƯỢC CEO (60 PHÚT)</h2>
-            <div class="gift-val-tag">GIÁ TRỊ: 26.678.000 VNĐ — (ĐẶC QUYỀN MIỄN PHÍ)</div>
+            <div class="gift-val-tag">ĐẶC QUYỀN COACHING 1:1 MIỄN PHÍ DÀNH CHO CEO</div>
             
             <ul class="gift-outcomes-list">
               <li class="gift-outcome-item">
@@ -408,7 +449,9 @@
           </div>
 
           <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 32px; border-radius: var(--radius-lg); border: 1px solid rgba(197, 155, 39, 0.3);">
-            <div style="font-size: 48px; margin-bottom: 12px;">🎁</div>
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(197,155,39,0.2); color: var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            </div>
             <h3 style="color: var(--gold); font-size: 22px; font-weight: 800; margin-bottom: 12px;">Số Lượng Đăng Ký Có Hạn!</h3>
             <p style="color: var(--neutral-300); font-size: 14.5px; margin-bottom: 24px;">Để đảm bảo chất lượng làm việc sâu 1 kèm 1, Chuyên gia chỉ nhận tối đa 10 CEO mỗi tuần.</p>
             <button class="btn-hero-gold btn-trigger-modal" style="width: 100%;">
@@ -462,7 +505,7 @@
     <div class="container">
       <div class="coach-card-layout">
         <div class="coach-image-wrapper">
-          <img src="coach_transparent.png" alt="Coach Ngô Xuân Vũ" onerror="this.src='coach.png'" />
+          <img src="coach_hero.png" alt="Coach Ngô Xuân Vũ" onerror="this.src='coach.png'" />
         </div>
 
         <div>
@@ -562,11 +605,10 @@
         <div>
           <h4>THÔNG TIN LIÊN HỆ</h4>
           <ul class="footer-links-list">
-            <li>📞 Hotline: <strong>08 18 68 33 39</strong></li>
-            <li>🎧 CSKH: <strong>08 38 31 16 16</strong></li>
             <li>▶ YouTube: Ngô Xuân Vũ - XV.NLP Academy</li>
             <li>📘 Fanpage: XV.NLP Academy</li>
             <li>👤 Facebook: Xuân Vũ Ngô</li>
+            <li>📱 Zalo Group: Kết Nối Trao Giá Trị</li>
           </ul>
         </div>
       </div>
@@ -583,9 +625,6 @@
     <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="floating-btn btn-zalo-float" title="Chat Zalo">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     </a>
-    <a href="tel:0818683339" class="floating-btn btn-phone-float" title="Gọi Hotline">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-    </a>
   </div>
 
   <!-- Registration Popup Modal -->
@@ -596,7 +635,7 @@
       <div style="text-align: center; margin-bottom: 24px;">
         <span class="badge-tag">Đặc Quyền CEO</span>
         <h3 style="font-size: 22px; font-weight: 800; color: var(--neutral-900); margin-top: 8px;">Đăng Ký Coaching CEO 1:1</h3>
-        <p style="font-size: 13.5px; color: var(--neutral-600); margin-top: 6px;">Phiên làm việc 60 phút trực tiếp cùng Master Coach Ngô Xuân Vũ (Trị giá 26.678.000 VNĐ - Miễn phí).</p>
+        <p style="font-size: 13.5px; color: var(--neutral-600); margin-top: 6px;">Phiên làm việc 60 phút trực tiếp cùng Master Coach Ngô Xuân Vũ (Đặc quyền dành riêng cho CEO).</p>
       </div>
 
       <form onsubmit="event.preventDefault(); document.getElementById('ceo-lead-form').dispatchEvent(new Event('submit'));">

@@ -271,4 +271,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Mobile Menu Drawer Toggle
+  const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+  const mobileDrawer = document.getElementById('mobile-drawer');
+  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+  if (mobileToggleBtn && mobileDrawer) {
+    mobileToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileDrawer.classList.toggle('active');
+    });
+
+    mobileNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        mobileDrawer.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!mobileDrawer.contains(e.target) && !mobileToggleBtn.contains(e.target)) {
+        mobileDrawer.classList.remove('active');
+      }
+    });
+  }
+
 });
