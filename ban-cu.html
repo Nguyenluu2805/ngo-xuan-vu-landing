@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[Bản Cũ] Giải Mã Nghẽn Doanh Thu – Ngô Xuân Vũ | NLP Master Coach</title>
+  <meta name="description" content="3 buổi coaching CEO SME đột phá: Giải Mã Nghẽn Doanh Thu. Đánh thức năng lực lãnh đạo bên trong bạn. Đăng ký ngay!">
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #1a3a2a;
+      --green-mid: #1e4d35;
+      --green-accent: #2d6a4f;
+      --gold: #c9a84c;
+      --gold-light: #e8c97e;
+      --gold-bright: #f5d27a;
+      --white: #ffffff;
+      --off-white: #f8f5ef;
+      --text-dark: #1a1a1a;
+      --text-muted: #555;
+      --red-accent: #c0392b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ──────────────── HEADER ──────────────── */
+    .top-bar {
+      background: var(--green-dark);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-area img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-text h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 1.5px;
+      line-height: 1.1;
+    }
+
+    .logo-text span {
+      font-size: 10px;
+      color: var(--gold-light);
+      letter-spacing: 3px;
+      font-weight: 500;
+    }
+
+    .badge-online {
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ──────────────── HERO ──────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0f2a1e 0%, #1a3a2a 40%, #1e4d35 70%, #2d6a4f 100%);
+      min-height: 85vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 60px 6% 40px;
+      gap: 40px;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .hero-tag span {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 16px;
+    }
+
+    .hero-title .line1 { font-size: clamp(36px, 5vw, 60px); color: var(--white); display: block; }
+    .hero-title .line2 {
+      font-size: clamp(56px, 8vw, 100px);
+      color: var(--gold);
+      display: block;
+      background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 60%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title .line3 { font-size: clamp(40px, 6vw, 72px); color: var(--white); display: block; }
+
+    .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--green-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+    }
+
+    .hero-image-wrap img {
+      max-height: 500px;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    /* ──────────────── COACH STRIP ──────────────── */
+    .coach-strip {
+      background: var(--white);
+      border-top: 4px solid var(--gold);
+      padding: 32px 6%;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .coach-name-block h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .coach-name-block .sub {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .coach-divider {
+      width: 2px;
+      height: 60px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+    }
+
+    .coach-creds {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .coach-creds li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .coach-creds li::before {
+      content: '✓';
+      width: 20px;
+      height: 20px;
+      background: var(--green-accent);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ──────────────── SECTION GRID ──────────────── */
+    .section-wrapper { padding: 60px 6%; }
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .card-header {
+      background: var(--green-dark);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .card-body { padding: 28px 24px; }
+
+    .sessions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .session-card {
+      background: var(--green-dark);
+      border-radius: 12px;
+      padding: 20px 12px;
+      text-align: center;
+      color: var(--white);
+      border: 1.5px solid rgba(201,168,76,0.3);
+    }
+
+    .session-card .session-date {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    /* ──────────────── GIFTS ──────────────── */
+    .gifts-section {
+      background: linear-gradient(135deg, var(--green-dark) 0%, #0f2a1e 100%);
+      padding: 60px 6%;
+      color: var(--white);
+    }
+
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .gift-card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(201,168,76,0.3);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .gift-card h3 { color: var(--gold); margin: 12px 0 8px; font-weight: 800; }
+
+    /* ──────────────── CTA ──────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, #0f2a1e 0%, #1a3a2a 50%, #0f2a1e 100%);
+      padding: 70px 6%;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--green-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      padding: 18px 48px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 8px 40px rgba(201,168,76,0.5);
+      margin-bottom: 24px;
+    }
+
+    .qr-wrap img {
+      width: 140px;
+      height: 140px;
+      border-radius: 12px;
+      border: 3px solid var(--gold);
+      background: white;
+      padding: 6px;
+    }
+
+    /* ──────────────── FOOTER ──────────────── */
+    .footer {
+      background: #0a1f14;
+      padding: 28px 6%;
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .section-grid { grid-template-columns: 1fr; }
+      .gifts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="logo-area">
+    <img src="logo.png" alt="Ngô Xuân Vũ Logo" />
+    <div class="logo-text">
+      <h1>NGÔ XUÂN VŨ</h1>
+      <span>NLP MASTER COACH</span>
+    </div>
+  </div>
+  <div class="badge-online">BẢN CŨ · KHÓA HỌC ONLINE</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span>3 BUỔI COACHING · CEO SME ĐỘT PHÁ</span>
+    </div>
+    <h2 class="hero-title">
+      <span class="line1">GIẢI MÃ</span>
+      <span class="line2">NGHẼN</span>
+      <span class="line3">DOANH THU</span>
+    </h2>
+    <p class="hero-desc">✦ Đánh thức năng lực lãnh đạo bên trong bạn ✦</p>
+    <a href="https://zalo.me/g/bpmqbq067" target="_blank" class="hero-cta">NÂNG TẦM GIÁ TRỊ – ĐĂNG KÝ ZALO</a>
+  </div>
+  <div class="hero-image-wrap">
+    <img src="poster.jpg" alt="Poster Khóa học Ngô Xuân Vũ" />
+  </div>
+</section>
+
+<!-- COACH STRIP -->
+<section class="coach-strip">
+  <div class="coach-name-block">
+    <h2>NGÔ XUÂN VŨ</h2>
+    <div class="sub">NLP MASTER COACH</div>
+  </div>
+  <div class="coach-divider"></div>
+  <ul class="coach-creds">
+    <li>Chủ tịch SBC MeMong</li>
+    <li>Nhà sáng lập XV.NLP ACADEMY</li>
+    <li>Chuyên gia hàng đầu về giải cứu doanh thu &amp; phát triển doanh nghiệp tự động nhân bản</li>
+  </ul>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="section-wrapper">
+  <div class="section-grid">
+
+    <!-- DÀNH CHO AI -->
+    <div class="card">
+      <div class="card-header">
+        <span>🎯</span> Dành Cho Ai?
+      </div>
+      <div class="card-body">
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;font-size:14px;">
+          <li>✓ Doanh thu chững lại, không bứt phá</li>
+          <li>✓ Đội ngũ thiếu động lực, rời rạc</li>
+          <li>✓ Chiến lược chưa rõ ràng, thiếu hệ thống</li>
+          <li>✓ Muốn tăng trưởng mạnh mẽ 4 tháng cuối năm</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- THỜI GIAN -->
+    <div class="card">
+      <div class="card-header">
+        <span>📅</span> Thời Gian Lịch Học
+      </div>
+      <div class="card-body">
+        <div class="sessions-grid">
+          <div class="session-card">
+            <div style="font-size:10px;color:var(--gold-light);">BUỔI 1</div>
+            <div class="session-date">11/8</div>
+            <div style="font-size:11px;">THỨ BA</div>
+          </div>
+          <div class="session-card">
+            <div style="font-size:10px;color:var(--gold-light);">BUỔI 2</div>
+            <div class="session-date">12/8</div>
+            <div style="font-size:11px;">THỨ TƯ</div>
+          </div>
+          <div class="session-card">
+            <div style="font-size:10px;color:var(--gold-light);">BUỔI 3</div>
+            <div class="session-date">13/8</div>
+            <div style="font-size:11px;">THỨ NĂM</div>
+          </div>
+        </div>
+        <p style="font-size:13px;text-align:center;">🕗 <strong>20:00 – 22:00</strong> · Học Online qua Zoom</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GIFTS -->
+<section class="gifts-section">
+  <h2 style="text-align:center;font-family:'Montserrat',sans-serif;font-weight:900;">QUÀ TẶNG ĐẶC BIỆT</h2>
+  <div class="gifts-grid">
+    <div class="gift-card">
+      <span style="font-size:11px;background:var(--gold);color:var(--green-dark);padding:4px 8px;border-radius:4px;font-weight:800;">QUÀ TẶNG 01</span>
+      <h3>Phiếu Chẩn Đoán 12 Điểm Nghẽn™</h3>
+      <p style="font-size:13px;opacity:0.8;">Coaching 1:1 · 60 phút trực tiếp cùng chuyên gia</p>
+    </div>
+    <div class="gift-card">
+      <span style="font-size:11px;background:var(--gold);color:var(--green-dark);padding:4px 8px;border-radius:4px;font-weight:800;">QUÀ TẶNG 02</span>
+      <h3>1 Giờ Định Hướng Trước Khóa Học</h3>
+      <p style="font-size:13px;opacity:0.8;">Trực tiếp 1 kèm 1 cùng Coach Ngô Xuân Vũ</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 style="font-size:36px;font-family:'Montserrat',sans-serif;font-weight:900;margin-bottom:12px;">ĐĂNG KÝ THAM GIA NGAY</h2>
+  <p style="margin-bottom:28px;opacity:0.8;">Ưu tiên đăng ký sớm để bứt phá 4 tháng cuối năm</p>
+  <a href="https://zalo.me/g/bpmqbq067" target="_blank" class="cta-btn">BẤM VÀO ĐÂY ĐỂ THAM GIA NHÓM ZALO →</a>
+  <div class="qr-wrap">
+    <img src="qr_zalo.png" alt="Mã QR Zalo" />
+    <p style="font-size:12px;margin-top:8px;color:var(--gold-light);">Quét mã QR bằng Zalo</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>
+    <strong>XV.NLP ACADEMY</strong> · Bản thiết kế truyền thống (Bản Cũ)
+  </div>
+  <div>
+    <a href="index.html" style="color:var(--gold-bright);font-weight:700;text-decoration:none;">👉 Xem Bản Thiết Kế Mới (Masterclass Theme)</a>
+  </div>
+</footer>
+
+</body>
+</html>
