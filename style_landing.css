@@ -1228,6 +1228,68 @@ input, select, textarea {
   color: var(--neutral-400);
 }
 
+.footer-social-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-social-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--neutral-300);
+  font-size: 14px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-social-item:hover {
+  color: var(--gold);
+  transform: translateX(4px);
+}
+
+.social-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.social-icon-box.youtube {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.35);
+}
+
+.social-icon-box.facebook {
+  background: rgba(24, 119, 242, 0.15);
+  color: #4595ff;
+  border: 1px solid rgba(69, 149, 255, 0.35);
+}
+
+.social-icon-box.user {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+}
+
+.social-icon-box.zalo {
+  background: rgba(0, 104, 255, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.footer-social-item:hover .social-icon-box {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 28px;
