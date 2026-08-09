@@ -194,8 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ───── GOOGLE SHEETS INTEGRATION ─────
-  // Người dùng thay đổi URL Web App của Google Sheet tại đây hoặc cấu hình window.GOOGLE_SHEET_URL
-  const GOOGLE_SHEET_SCRIPT_URL = window.GOOGLE_SHEET_URL || '';
+  const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyoO5eD_2ZmdpWPHIHRh4cNhIa0bv7IuIY5UjL4lnPXfsobu4V6NArDgA1FuuQHYemD-A/exec';
 
   async function sendLeadToGoogleSheet(leadData) {
     if (!GOOGLE_SHEET_SCRIPT_URL) return;

@@ -1267,7 +1267,7 @@
     }
 
     // Google Sheets Handler for V1
-    const GOOGLE_SHEET_SCRIPT_URL = window.GOOGLE_SHEET_URL || '';
+    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyoO5eD_2ZmdpWPHIHRh4cNhIa0bv7IuIY5UjL4lnPXfsobu4V6NArDgA1FuuQHYemD-A/exec';
     async function sendLeadToGoogleSheet(leadData) {
       if (!GOOGLE_SHEET_SCRIPT_URL) return;
       try {
