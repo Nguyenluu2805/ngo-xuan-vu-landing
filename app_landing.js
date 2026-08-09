@@ -193,9 +193,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ───── GOOGLE SHEETS INTEGRATION ─────
+  // Người dùng thay đổi URL Web App của Google Sheet tại đây hoặc cấu hình window.GOOGLE_SHEET_URL
+  const GOOGLE_SHEET_SCRIPT_URL = window.GOOGLE_SHEET_URL || '';
+
+  async function sendLeadToGoogleSheet(leadData) {
+    if (!GOOGLE_SHEET_SCRIPT_URL) return;
+    try {
+      await fetch(GOOGLE_SHEET_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData)
+      });
+      console.log('Successfully sent lead to Google Sheet!');
+    } catch (err) {
+      console.warn('Google Sheet submission warning:', err);
+    }
+  }
+
   // Lead Form Submission Handler
   if (leadForm) {
-    leadForm.addEventListener('submit', (e) => {
+    leadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const name = document.getElementById('lead-name')?.value.trim();
@@ -207,16 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Save lead payload locally for confirmation
+      // Prepare lead payload
       const leadData = {
-        name,
-        phone,
-        company,
+        name: name,
+        phone: phone,
+        company: company || 'Chưa cung cấp',
         score: document.getElementById('score-number')?.textContent || '75',
-        timestamp: new Date().toISOString()
+        source: 'Giao diện V2 (Executive)',
+        timestamp: new Date().toLocaleString('vi-VN')
       };
       
+      // Save locally & Send to Google Sheet
       localStorage.setItem('xv_ceo_lead', JSON.stringify(leadData));
+      sendLeadToGoogleSheet(leadData);
 
       // Close modal if open
       if (modalOverlay) modalOverlay.classList.remove('active');
@@ -224,10 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reset form
       leadForm.reset();
 
-      // Show Success Confirmation Toast & Alert
-      showToast("🎉 Đăng ký thành công! Chuyên gia XV.NLP Academy sẽ liên hệ Zalo trong 15 phút.");
+      // Show Success Confirmation Toast
+      showToast("Đăng ký thành công! Chuyên gia XV.NLP Academy sẽ liên hệ Zalo trong ít phút.");
 
-      // Open Zalo Group link after a brief delay
+      // Open Zalo Group link after brief delay
       setTimeout(() => {
         window.open('https://zalo.me/g/bpmqbq067', '_blank');
       }, 1500);
