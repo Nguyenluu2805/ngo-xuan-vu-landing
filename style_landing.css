@@ -171,18 +171,22 @@ input, select, textarea {
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .brand-logo-img {
   height: 48px;
   width: auto;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brand-titles {
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
 }
 
 .brand-name {
@@ -192,6 +196,7 @@ input, select, textarea {
   color: var(--primary);
   letter-spacing: -0.01em;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .brand-sub {
@@ -201,6 +206,7 @@ input, select, textarea {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-top: 2px;
+  white-space: nowrap;
 }
 
 .nav-links {
@@ -1354,12 +1360,32 @@ input, select, textarea {
 }
 
 @media (max-width: 768px) {
+  .nav-wrapper {
+    padding: 10px 12px;
+  }
+  .brand-link {
+    gap: 8px;
+  }
+  .brand-logo-img {
+    height: 38px;
+  }
+  .brand-name {
+    font-size: 13px;
+  }
+  .brand-sub {
+    font-size: 9px;
+  }
+  .btn-nav-cta {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
   .nav-links,
   .btn-nav-outline {
     display: none !important;
   }
   .mobile-menu-toggle {
     display: block;
+    padding: 4px;
   }
   .container {
     padding: 0 16px;

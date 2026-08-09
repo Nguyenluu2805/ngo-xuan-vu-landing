@@ -73,16 +73,19 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      white-space: nowrap;
     }
 
     .nav-brand img {
       height: 44px;
       width: auto;
       object-fit: contain;
+      flex-shrink: 0;
     }
 
     .nav-brand-text {
-      line-height: 1.2;
+      line-height: 1.15;
+      white-space: nowrap;
     }
 
     .nav-brand-text strong {
@@ -91,6 +94,7 @@
       font-weight: 800;
       color: var(--neutral-900);
       letter-spacing: -0.02em;
+      white-space: nowrap;
     }
 
     .nav-brand-text span {
@@ -99,6 +103,8 @@
       color: var(--neutral-500);
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      display: block;
+      white-space: nowrap;
     }
 
     .nav-links {
@@ -842,8 +848,14 @@
 
     /* ───── MOBILE RESPONSIVE MEDIA QUERIES ───── */
     @media (max-width: 900px) {
+      .nav-inner { padding: 0 12px; gap: 8px; }
+      .nav-brand { gap: 6px; flex-shrink: 1; min-width: 0; }
+      .nav-brand img { height: 36px; }
+      .nav-brand-text strong { font-size: 12.5px; }
+      .nav-brand-text span { font-size: 9px; }
+      .btn-primary { height: 36px; padding: 0 10px; font-size: 12px; border-radius: 8px; }
       .nav-links { display: none; }
-      .nav-mobile-toggle { display: block; }
+      .nav-mobile-toggle { display: block; padding: 4px; }
       .hero-inner { grid-template-columns: 1fr; gap: 36px; }
       .who-grid, .gifts-grid, .cta-card, .coach-inner, .footer-inner { grid-template-columns: 1fr; gap: 32px; }
       .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -855,6 +867,11 @@
       .hero-desc { font-size: 15px; }
       .hero-actions .btn-primary, .hero-actions .btn-outline { width: 100%; justify-content: center; }
       .footer-bottom-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 400px) {
+      .nav-brand-text span { display: none; }
+      .btn-primary { font-size: 11px; padding: 0 8px; }
     }
   </style>
 </head>
