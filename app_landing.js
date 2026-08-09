@@ -199,11 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
   async function sendLeadToGoogleSheet(leadData) {
     if (!GOOGLE_SHEET_SCRIPT_URL) return;
     try {
+      const formData = new URLSearchParams();
+      for (const key in leadData) {
+        formData.append(key, leadData[key]);
+      }
+
       await fetch(GOOGLE_SHEET_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadData)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
       });
       console.log('Successfully sent lead to Google Sheet!');
     } catch (err) {
