@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Phiên bản V1 — Giải Mã Nghẽn Doanh Thu | Master Coach Ngô Xuân Vũ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Giải Mã Nghẽn Doanh Thu — Master Coach Ngô Xuân Vũ | XV.NLP Academy</title>
   <meta name="description" content="3 buổi coaching CEO SME đột phá: Giải Mã Nghẽn Doanh Thu. Đánh thức năng lực lãnh đạo bên trong bạn. 11–13/8/2026.">
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,29 +104,18 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 28px;
     }
 
     .nav-links a {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--neutral-700);
       text-decoration: none;
       transition: color 0.2s;
     }
 
     .nav-links a:hover { color: var(--green); }
-
-    .nav-v-switch {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gold-mid);
-      background: var(--gold-light);
-      border: 1px solid var(--gold-mid);
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-decoration: none;
-    }
 
     .btn-primary {
       display: inline-flex;
@@ -174,6 +163,50 @@
       transform: translateY(-1px);
     }
 
+    /* Mobile Nav Toggle & Drawer */
+    .nav-mobile-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--neutral-800);
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .nav-mobile-drawer {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--neutral-200);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+      padding: 20px 24px;
+      flex-direction: column;
+      gap: 14px;
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-mobile-drawer.active {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-mobile-drawer a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--neutral-800);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--neutral-200);
+    }
+
     /* ───── HERO ───── */
     .hero {
       position: relative;
@@ -187,7 +220,7 @@
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 64px;
       align-items: center;
     }
@@ -219,7 +252,7 @@
     }
 
     .hero-h1 {
-      font-size: clamp(36px, 4.5vw, 56px);
+      font-size: clamp(34px, 4.2vw, 56px);
       font-weight: 900;
       line-height: 1.08;
       letter-spacing: -0.04em;
@@ -720,7 +753,7 @@
 
     .qr-label { font-size: 12px; font-weight: 600; color: var(--neutral-500); text-align: center; }
 
-    /* ───── ENHANCED V1 FOOTER ───── */
+    /* ───── ENHANCED STANDALONE FOOTER ───── */
     .footer {
       background: #09150d;
       color: var(--white);
@@ -794,11 +827,6 @@
       color: var(--gold-bright);
     }
 
-    .footer-links .active-link {
-      color: var(--gold-bright);
-      font-weight: 700;
-    }
-
     .footer-bottom {
       max-width: 1200px;
       margin: 24px auto 0;
@@ -812,17 +840,20 @@
       color: rgba(255,255,255,0.5);
     }
 
-    .footer-bottom-inner .v-tag {
-      font-weight: 700;
-      color: var(--gold);
-      background: rgba(197, 155, 39, 0.15);
-      padding: 4px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(197, 155, 39, 0.3);
-    }
-
+    /* ───── MOBILE RESPONSIVE MEDIA QUERIES ───── */
     @media (max-width: 900px) {
-      .hero-inner, .who-grid, .gifts-grid, .cta-card, .coach-inner, .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; }
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+      .who-grid, .gifts-grid, .cta-card, .coach-inner, .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--neutral-200); padding: 16px; }
+      .stat-item:last-child { border-bottom: none; }
+      .hero { padding: 44px 16px 56px; }
+      .section { padding: 56px 16px; }
+      .hero-h1 { font-size: clamp(28px, 7vw, 38px); }
+      .hero-desc { font-size: 15px; }
+      .hero-actions .btn-primary, .hero-actions .btn-outline { width: 100%; justify-content: center; }
       .footer-bottom-inner { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
@@ -840,12 +871,26 @@
       </div>
     </a>
     <nav class="nav-links">
+      <a href="#tong-quan">Tổng quan</a>
       <a href="#doi-tuong">Đối tượng</a>
-      <a href="#coach">Giảng viên</a>
       <a href="#qua-tang">Quà tặng</a>
-      <a href="v2.html" class="nav-v-switch">👉 Sang Phiên Bản V2</a>
+      <a href="#coach">Giảng viên</a>
     </nav>
-    <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-primary">Đăng ký Zalo</a>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-primary">Đăng ký Zalo</a>
+      <button class="nav-mobile-toggle" id="v1-mobile-toggle" aria-label="Menu Mobile">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Slide-out Drawer -->
+  <div class="nav-mobile-drawer" id="v1-mobile-drawer">
+    <a href="#tong-quan" class="v1-nav-item">Tổng quan khóa học</a>
+    <a href="#doi-tuong" class="v1-nav-item">Đối tượng tham gia</a>
+    <a href="#qua-tang" class="v1-nav-item">Quà tặng đặc biệt</a>
+    <a href="#coach" class="v1-nav-item">Giảng viên Ngô Xuân Vũ</a>
+    <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-primary" style="width:100%;margin-top:10px;">Đăng ký tham gia Zalo →</a>
   </div>
 </header>
 
@@ -868,7 +913,7 @@
       </p>
       <div class="hero-actions">
         <a href="https://zalo.me/g/bpmqbq067" class="btn-primary" target="_blank" rel="noopener">Đăng ký ngay qua Zalo</a>
-        <a href="v2.html" class="btn-outline">Khám phá Phiên bản V2</a>
+        <a href="#doi-tuong" class="btn-outline">Xem chi tiết khóa học</a>
       </div>
       <p class="hero-note">Số lượng có hạn · Ưu tiên đăng ký sớm · Học Online 20:00–22:00</p>
     </div>
@@ -1043,7 +1088,7 @@
   </div>
 </section>
 
-<!-- ENHANCED FOOTER -->
+<!-- STANDALONE PREMIUM FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <div>
@@ -1056,22 +1101,23 @@
     </div>
 
     <div>
-      <h4 class="footer-heading">Khám Phá V1 &amp; V2</h4>
+      <h4 class="footer-heading">LIÊN KẾT NHANH</h4>
       <ul class="footer-links">
-        <li><a href="v1.html" class="active-link">✔ Phiên bản V1 (Classic SaaS)</a></li>
-        <li><a href="v2.html">👉 Chuyển sang Phiên bản V2 (Executive)</a></li>
         <li><a href="#tong-quan">Tổng Quan Khóa Học</a></li>
+        <li><a href="#doi-tuong">Đối Tượng Tham Gia</a></li>
+        <li><a href="#qua-tang">Quà Tặng Đặc Biệt</a></li>
         <li><a href="#coach">Giảng Viên Ngô Xuân Vũ</a></li>
+        <li><a href="#dang-ky">Đăng Ký Tham Gia Zalo</a></li>
       </ul>
     </div>
 
     <div>
-      <h4 class="footer-heading">Kết Nối &amp; Hỗ Trợ</h4>
+      <h4 class="footer-heading">KẾT NỐI THƯƠNG HIỆU</h4>
       <ul class="footer-links">
-        <li>📱 Zalo Group: <strong>Kết Nối Trao Giá Trị</strong></li>
         <li>▶ YouTube: <strong>Ngô Xuân Vũ - XV.NLP Academy</strong></li>
         <li>📘 Fanpage: <strong>XV.NLP Academy</strong></li>
         <li>👤 Facebook: <strong>Xuân Vũ Ngô</strong></li>
+        <li>📱 Zalo Group: <strong>Kết Nối Trao Giá Trị</strong></li>
       </ul>
     </div>
   </div>
@@ -1079,10 +1125,35 @@
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p>© 2026 XV.NLP ACADEMY • Master Coach Ngô Xuân Vũ. All rights reserved.</p>
-      <p class="v-tag">Phiên Bản V1 (Classic White SaaS Theme)</p>
+      <p>Bản quyền thuộc về Ngô Xuân Vũ</p>
     </div>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('v1-mobile-toggle');
+    const drawer = document.getElementById('v1-mobile-drawer');
+    const items = document.querySelectorAll('.v1-nav-item');
+
+    if (toggleBtn && drawer) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawer.classList.toggle('active');
+      });
+
+      items.forEach(item => {
+        item.addEventListener('click', () => drawer.classList.remove('active'));
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+          drawer.classList.remove('active');
+        }
+      });
+    }
+  });
+</script>
 
 </body>
 </html>
