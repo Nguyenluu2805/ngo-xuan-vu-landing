@@ -2,9 +2,10 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/ban-moi", "destination": "/ban-moi.html" },
-    { "source": "/ban-cu", "destination": "/ban-cu.html" },
-    { "source": "/v1", "destination": "/ban-cu.html" },
-    { "source": "/landing", "destination": "/landing.html" }
+    { "source": "/v1", "destination": "/v1.html" },
+    { "source": "/v2", "destination": "/v2.html" },
+    { "source": "/ban-cu", "destination": "/v1.html" },
+    { "source": "/ban-moi", "destination": "/v2.html" },
+    { "source": "/landing", "destination": "/v2.html" }
   ]
 }
