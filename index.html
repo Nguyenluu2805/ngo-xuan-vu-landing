@@ -2,423 +2,1291 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <!-- Trigger Vercel Deployment: Checklist App Restored -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Checklist & Workspace — Quản Lý Ghi Chú & Công Việc</title>
-  <meta name="description" content="Ứng dụng Checklist, Ghi chú, Quản lý Lớp học & Công việc thông minh tích hợp Lịch và Board Canvas.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Giải Mã Nghẽn Doanh Thu — Master Coach Ngô Xuân Vũ | XV.NLP Academy</title>
+  <meta name="description" content="3 buổi coaching CEO SME đột phá: Giải Mã Nghẽn Doanh Thu. Đánh thức năng lực lãnh đạo bên trong bạn. 11–13/8/2026.">
   <link rel="icon" type="image/png" href="logo.png" />
-  
-  <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Application Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1a4731;
+      --green-mid: #1e5c3e;
+      --green-light: #d1f0dc;
+      --green-lighter: #edfaf2;
+      --gold: #b8922a;
+      --gold-mid: #c9a84c;
+      --gold-light: #fdf3dc;
+      --gold-bright: #f5d27a;
+      --neutral-50: #f9fafb;
+      --neutral-100: #f3f4f6;
+      --neutral-200: #e5e7eb;
+      --neutral-300: #d1d5db;
+      --neutral-500: #6b7280;
+      --neutral-700: #374151;
+      --neutral-900: #111827;
+      --white: #ffffff;
+      --red: #dc2626;
+      --red-light: #fee2e2;
+      --orange: #ea580c;
+      --orange-light: #ffedd5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--neutral-900);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ───── STICKY NAV ───── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--neutral-200);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-brand img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-brand-text {
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .nav-brand-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--neutral-900);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .nav-brand-text span {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--neutral-700);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 20px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #163d28;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(26,71,49,0.25);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 20px;
+      background: var(--white);
+      color: var(--neutral-900);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: 1.5px solid var(--neutral-300);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+      transform: translateY(-1px);
+    }
+
+    /* Mobile Nav Toggle & Drawer */
+    .nav-mobile-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--neutral-800);
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .nav-mobile-drawer {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--neutral-200);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+      padding: 20px 24px;
+      flex-direction: column;
+      gap: 14px;
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-mobile-drawer.active {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-mobile-drawer a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--neutral-800);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--neutral-200);
+    }
+
+    /* ───── HERO ───── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+      padding: 72px 24px 80px;
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--green-lighter);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-h1 {
+      font-size: clamp(34px, 4.2vw, 56px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: var(--neutral-900);
+      margin-bottom: 20px;
+    }
+
+    .hero-h1 .accent { color: var(--green); }
+
+    .hero-h1 .gold-accent {
+      background: linear-gradient(135deg, var(--gold), var(--gold-mid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--neutral-500);
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions .btn-primary {
+      height: 52px;
+      padding: 0 28px;
+      font-size: 15px;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(26,71,49,0.22);
+    }
+
+    .hero-actions .btn-outline {
+      height: 52px;
+      padding: 0 28px;
+      font-size: 15px;
+      border-radius: 14px;
+    }
+
+    .hero-note {
+      font-size: 13px;
+      color: var(--neutral-500);
+      font-weight: 500;
+    }
+
+    /* ───── POSTER IMAGE ───── */
+    .hero-poster-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .hero-poster-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .hero-poster-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .hero-poster-badge .dot-live {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      flex-shrink: 0;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+
+    .hero-poster-badge span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--neutral-700);
+    }
+
+    .hero-poster-badge a {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      text-decoration: none;
+      border: 1.5px solid var(--green);
+      border-radius: 6px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .hero-poster-badge a:hover {
+      background: var(--green);
+      color: white;
+    }
+
+    /* ───── STATS STRIP ───── */
+    .stats-strip {
+      background: var(--white);
+      border-top: 1px solid var(--neutral-200);
+      border-bottom: 1px solid var(--neutral-200);
+      padding: 24px;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+    }
+
+    .stat-item {
+      padding: 20px 28px;
+      text-align: center;
+      border-right: 1px solid var(--neutral-200);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-item .big {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .stat-item .small {
+      font-size: 13px;
+      color: var(--neutral-500);
+      margin-top: 6px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* ───── SECTION SHARED ───── */
+    .section { padding: 80px 24px; }
+    .section-alt { background: var(--neutral-50); }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--neutral-900);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    /* ───── WHO SECTION ───── */
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .who-card {
+      background: var(--white);
+      border: 1px solid var(--neutral-200);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.3s;
+    }
+
+    .who-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .who-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .who-card-icon.red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .who-card-icon.gold { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+    .who-card-icon.orange { background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; }
+    .who-card-icon.green { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+
+    .who-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+    }
+
+    .who-card p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--neutral-500);
+    }
+
+    /* ───── GIFTS ───── */
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .gift-card {
+      background: var(--white);
+      border: 1px solid var(--neutral-200);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      border-color: var(--green-light);
+    }
+
+    .gift-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--gold-light);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .gift-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--green-lighter);
+      border: 1px solid var(--green-light);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+
+    .gift-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+    }
+
+    .gift-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--neutral-500);
+    }
+
+    /* ───── COACH SECTION ───── */
+    .coach-section {
+      background: var(--neutral-900);
+      color: var(--white);
+      padding: 80px 24px;
+    }
+
+    .coach-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .coach-photo-wrap {
+      position: relative;
+    }
+
+    .coach-photo-bg {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: 24px;
+      background: var(--white);
+      border: 1px solid var(--neutral-200);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .coach-photo-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .coach-photo-badge {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      background: var(--white);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+      color: var(--neutral-900);
+    }
+
+    .coach-photo-badge .badge-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .coach-photo-badge .badge-txt {
+      font-size: 12px;
+      color: var(--neutral-500);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .coach-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold-bright);
+      margin-bottom: 12px;
+    }
+
+    .coach-name {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .coach-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .coach-bio {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 24px;
+    }
+
+    .coach-creds {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .coach-creds li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+    }
+
+    .cred-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cred-dot svg {
+      width: 10px;
+      height: 10px;
+      stroke: var(--green);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    /* ───── CTA ───── */
+    .cta-section {
+      background: var(--green);
+      color: var(--white);
+      padding: 80px 24px;
+    }
+
+    .cta-card {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .cta-title {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .cta-desc {
+      font-size: 16px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 24px;
+    }
+
+    .cta-box {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 28px;
+      color: var(--neutral-900);
+    }
+
+    .cta-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+    .cta-list { list-style: none; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+    .cta-list li::before { content: '✓ '; color: var(--green); font-weight: 800; }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      background: var(--green);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover { background: #123323; }
+
+    .qr-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      font-size: 12px;
+      color: var(--neutral-500);
+    }
+    .qr-divider::before, .qr-divider::after { content: ''; flex: 1; height: 1px; background: var(--neutral-200); }
+
+    .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .qr-wrap img {
+      width: 130px;
+      height: 130px;
+      border-radius: 12px;
+      border: 2px solid var(--neutral-200);
+      padding: 4px;
+      background: white;
+    }
+
+    .qr-label { font-size: 12px; font-weight: 600; color: var(--neutral-500); text-align: center; }
+
+    /* ───── ENHANCED STANDALONE FOOTER ───── */
+    .footer {
+      background: #09150d;
+      color: var(--white);
+      padding: 64px 24px 32px;
+      border-top: 2px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .footer-logo-img {
+      height: 52px;
+      width: auto;
+      background: var(--white);
+      padding: 6px 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      object-fit: contain;
+    }
+
+    .footer-brand-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--gold-bright);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+      max-width: 360px;
+    }
+
+    .footer-heading {
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links li {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-bright);
+    }
+
+    .footer-links .active-link {
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .footer-social-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-social-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.85);
+      font-size: 13.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-social-item:hover {
+      color: var(--gold-bright);
+      transform: translateX(4px);
+    }
+
+    .social-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .social-icon-box.youtube {
+      background: rgba(255, 0, 0, 0.15);
+      color: #ff4d4d;
+      border: 1px solid rgba(255, 77, 77, 0.35);
+    }
+
+    .social-icon-box.facebook {
+      background: rgba(24, 119, 242, 0.15);
+      color: #4595ff;
+      border: 1px solid rgba(69, 149, 255, 0.35);
+    }
+
+    .social-icon-box.user {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+    }
+
+    .social-icon-box.zalo {
+      background: rgba(0, 104, 255, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .footer-social-item:hover .social-icon-box {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }.footer-bottom {
+      max-width: 1200px;
+      margin: 24px auto 0;
+    }
+
+    .footer-bottom-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ───── MOBILE RESPONSIVE MEDIA QUERIES ───── */
+    @media (max-width: 900px) {
+      .nav-inner { padding: 0 12px; gap: 8px; }
+      .nav-brand { gap: 6px; flex-shrink: 1; min-width: 0; }
+      .nav-brand img { height: 36px; }
+      .nav-brand-text strong { font-size: 12.5px; }
+      .nav-brand-text span { font-size: 9px; }
+      .btn-primary { height: 36px; padding: 0 10px; font-size: 12px; border-radius: 8px; }
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; padding: 4px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+      .who-grid, .gifts-grid, .cta-card, .coach-inner, .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--neutral-200); padding: 16px; }
+      .stat-item:last-child { border-bottom: none; }
+      .hero { padding: 44px 16px 56px; }
+      .section { padding: 56px 16px; }
+      .hero-h1 { font-size: clamp(28px, 7vw, 38px); }
+      .hero-desc { font-size: 15px; }
+      .hero-actions .btn-primary, .hero-actions .btn-outline { width: 100%; justify-content: center; }
+      .footer-bottom-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 400px) {
+      .nav-brand-text span { display: none; }
+      .btn-primary { font-size: 11px; padding: 0 8px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Main App Layout Grid -->
-  <div class="app-container">
-
-    <!-- ────────────── LEFT SIDEBAR ────────────── -->
-    <aside class="sidebar">
-      <!-- Branding Logo & Theme Switcher -->
-      <div class="sidebar-logo">
-        <img src="logo.png" alt="Logo" class="logo-img-main" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="logo-icon" style="display: none;">XV</div>
-        <span class="logo-text">Checklist App</span>
-        <button class="theme-toggle-btn" id="btn-theme-toggle" title="Chuyển chế độ Sáng/Tối">
-          <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
-        </button>
+<!-- STICKY NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <img src="logo.png" alt="Ngô Xuân Vũ Logo" />
+      <div class="nav-brand-text">
+        <strong>NGÔ XUÂN VŨ</strong>
+        <span>NLP Master Coach</span>
       </div>
-
-      <!-- Navigation Tabs (Calendar / Classroom) -->
-      <div style="display: flex; gap: 8px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: var(--border-radius-md); border: 1px solid var(--border-light);">
-        <button class="btn active" id="btn-sidebar-tab-calendar" style="flex: 1; height: 34px; font-size: 0.78rem; font-weight: 600; border: none; background: rgba(255, 255, 255, 0.05); color: var(--text-main);">
-          <i data-lucide="calendar" style="width: 14px; height: 14px;"></i> Lịch Ghi Chú
-        </button>
-        <button class="btn" id="btn-sidebar-tab-classes" style="flex: 1; height: 34px; font-size: 0.78rem; font-weight: 600; border: none; background: transparent; color: var(--text-muted);">
-          <i data-lucide="users" style="width: 14px; height: 14px;"></i> Lớp Học
-        </button>
-      </div>
-
-      <!-- Calendar Widget Panel -->
-      <div class="calendar-widget" id="sidebar-calendar-widget">
-        <div class="calendar-header">
-          <span class="calendar-title" id="calendar-month-year">Tháng 8, 2026</span>
-          <div class="btn-group">
-            <button class="calendar-nav-btn" id="prev-month" title="Tháng trước">‹</button>
-            <button class="calendar-nav-btn" id="next-month" title="Tháng sau">›</button>
-          </div>
-        </div>
-        <div class="calendar-days-grid">
-          <span>CN</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span>
-        </div>
-        <div class="calendar-grid" id="calendar-grid-cells">
-          <!-- Calendar cells rendered via app.js -->
-        </div>
-      </div>
-
-      <!-- Classes List Widget Panel (Hidden by default) -->
-      <div class="calendar-widget" id="sidebar-classes-widget" style="display: none;">
-        <div class="calendar-header">
-          <span class="calendar-title">Danh sách lớp học</span>
-          <button class="btn btn-primary" id="btn-sidebar-add-class" style="width: auto; height: 28px; padding: 0 10px; font-size: 0.75rem;">
-            <i data-lucide="plus" style="width: 13px; height: 13px;"></i> Tạo Lớp
-          </button>
-        </div>
-        <div id="classes-list-container" style="display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto;">
-          <!-- Class items rendered via app.js -->
-        </div>
-      </div>
-
-      <!-- Quick Info Vault Launcher -->
-      <button class="btn" id="btn-open-quick-info" style="border-color: var(--border-medium);">
-        <i data-lucide="key" style="width: 16px; height: 16px; color: var(--warning);"></i> Thông Tin Nhanh (Vault)
+    </a>
+    <nav class="nav-links">
+      <a href="#tong-quan">Tổng quan</a>
+      <a href="#doi-tuong">Đối tượng</a>
+      <a href="#qua-tang">Quà tặng</a>
+      <a href="#coach">Giảng viên</a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-primary">Đăng ký Zalo</a>
+      <button class="nav-mobile-toggle" id="v1-mobile-toggle" aria-label="Menu Mobile">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
-
-      <!-- Date Display Indicator -->
-      <div class="current-date-info">
-        <div class="current-day-label" id="sidebar-day-label">Thứ Ba</div>
-        <div class="current-date-label" id="sidebar-date-label">11 Tháng 8, 2026</div>
-      </div>
-
-      <!-- Data Backup & Restore Controls -->
-      <div style="display: flex; gap: 8px; margin-top: auto;">
-        <button class="btn" id="btn-export-backup" title="Xuất Sao Lưu Dữ Liệu (JSON)" style="font-size: 0.75rem;">
-          <i data-lucide="download-cloud" style="width: 14px; height: 14px;"></i> Backup
-        </button>
-        <button class="btn" id="btn-import-backup" title="Nhập Dữ Liệu Từ File Backup" style="font-size: 0.75rem;">
-          <i data-lucide="upload-cloud" style="width: 14px; height: 14px;"></i> Restore
-        </button>
-        <input type="file" id="import-file-input" accept=".json" style="display: none;" />
-      </div>
-    </aside>
-
-    <!-- ────────────── CENTER WORKSPACE AREA ────────────── -->
-    <main class="main-content">
-
-      <!-- Notepad Card Workspace -->
-      <div class="notepad-card" id="notepad-card-container" style="display: flex; flex-direction: column; height: 100%;">
-        <!-- Header -->
-        <div class="notepad-header" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <h2 class="notepad-title" id="notepad-active-date" style="font-size: 1.1rem; font-weight: 700;">Ghi chú ngày 11/08/2026</h2>
-            <div class="save-status" style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-muted);">
-              <span class="status-dot saved" id="save-status-dot"></span>
-              <span id="save-status-text">Đã lưu</span>
-            </div>
-          </div>
-
-          <!-- View Mode Toggle (Notepad / Board) & Global Search -->
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="position: relative;">
-              <input type="text" id="global-search-input" class="input-field" placeholder="Tìm kiếm toàn bộ ghi chú..." style="width: 200px; height: 34px; padding: 0 10px; font-size: 0.8rem; border-radius: var(--border-radius-md);" />
-              <div id="global-search-results" class="search-results-dropdown" style="display: none; position: absolute; top: 38px; right: 0; width: 320px; max-height: 300px; overflow-y: auto; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; padding: 8px;"></div>
-            </div>
-
-            <div style="display: flex; background: rgba(255,255,255,0.04); padding: 3px; border-radius: var(--border-radius-md); border: 1px solid var(--border-light);">
-              <button class="btn active" id="btn-mode-notepad" style="width: auto; height: 28px; padding: 0 12px; font-size: 0.75rem; border: none;">
-                <i data-lucide="file-text" style="width: 13px; height: 13px;"></i> Notepad
-              </button>
-              <button class="btn" id="btn-mode-board" style="width: auto; height: 28px; padding: 0 12px; font-size: 0.75rem; border: none; background: transparent; color: var(--text-muted);">
-                <i data-lucide="layout-dashboard" style="width: 13px; height: 13px;"></i> Board Canvas
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Editor Toolbar -->
-        <div class="editor-toolbar" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.01);">
-          <button class="btn" id="btn-toggle-find" title="Tìm & Thay thế (Ctrl+F)" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
-            <i data-lucide="search" style="width: 14px; height: 14px;"></i> Tìm kiếm
-          </button>
-          <button class="btn" id="btn-upload-file" title="Tải đính kèm file" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
-            <i data-lucide="paperclip" style="width: 14px; height: 14px;"></i> Đính kèm
-          </button>
-          <input type="file" id="file-input" multiple style="display: none;" />
-
-          <button class="btn" id="btn-export-md" title="Xuất file Markdown (.md)" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem; margin-left: auto;">
-            <i data-lucide="file-output" style="width: 14px; height: 14px;"></i> Xuất Markdown
-          </button>
-          <button class="btn btn-danger-outline" id="btn-clear-note" title="Xóa nội dung trang này" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
-            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Xóa Trắng
-          </button>
-        </div>
-
-        <!-- Find & Replace Bar (Collapsible) -->
-        <div class="find-replace-bar" id="find-replace-bar" style="display: none; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-light);">
-          <input type="text" id="search-input" class="input-field" placeholder="Từ khóa tìm..." style="width: 150px; height: 30px; font-size: 0.78rem; padding: 0 8px;" />
-          <input type="text" id="replace-input" class="input-field" placeholder="Thay thế bằng..." style="width: 150px; height: 30px; font-size: 0.78rem; padding: 0 8px;" />
-          <button class="btn" id="btn-find-next" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Tiếp</button>
-          <button class="btn" id="btn-replace" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Thay thế</button>
-          <button class="btn" id="btn-replace-all" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Tất cả</button>
-          <button class="btn" id="btn-close-find" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem; margin-left: auto;">✕</button>
-        </div>
-
-        <!-- Editor Content Area -->
-        <div style="flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden;">
-          <div id="notepad-textarea" contenteditable="true" style="flex: 1; padding: 20px; outline: none; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; color: var(--text-main);" placeholder="Nhập nội dung ghi chú công việc ở đây..."></div>
-          <div class="drag-overlay" id="drag-overlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 21, 36, 0.9); border: 2px dashed var(--primary); justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 600; color: var(--primary); z-index: 10;">
-            Kéo thả tập tin vào đây để tải đính kèm
-          </div>
-        </div>
-      </div>
-
-      <!-- Classroom Management Workspace (Hidden by default) -->
-      <div class="notepad-card" id="classroom-card-container" style="display: none; flex-direction: column; height: 100%;">
-        <div class="notepad-header" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
-          <h2 id="classroom-active-title" style="font-size: 1.1rem; font-weight: 700;">Quản lý lớp học</h2>
-          <div id="classroom-header-actions" style="display: flex; gap: 8px;"></div>
-        </div>
-
-        <div id="classroom-search-container" style="display: none; padding: 10px 20px; border-bottom: 1px solid var(--border-light);">
-          <input type="text" id="classroom-student-search" class="input-field" placeholder="Tìm kiếm sinh viên theo tên..." style="width: 100%; height: 36px; padding: 0 12px; font-size: 0.85rem;" />
-        </div>
-
-        <div id="classroom-empty-state" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); gap: 12px;">
-          <i data-lucide="book-open" style="width: 48px; height: 48px; opacity: 0.4;"></i>
-          <p>Vui lòng chọn một lớp học ở danh sách bên trái hoặc bấm "Tạo Lớp" mới.</p>
-        </div>
-
-        <div id="classroom-active-view" style="display: none; flex: 1; padding: 20px; overflow-y: auto;">
-          <div id="student-grid-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;"></div>
-        </div>
-      </div>
-
-    </main>
-
-    <!-- ────────────── RIGHT SIDEBAR ────────────── -->
-    <aside class="sidebar right-bar">
-
-      <!-- Notepad Side Features (Issues & Attachments) -->
-      <div id="notepad-right-bar-content" style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
-
-        <!-- Unresolved Issues Widget -->
-        <div class="calendar-widget">
-          <div class="calendar-header">
-            <span class="calendar-title" style="display: flex; align-items: center; gap: 6px;">
-              <i data-lucide="alert-circle" style="width: 15px; height: 15px; color: var(--danger);"></i>
-              Việc Cần Xử Lý (<span id="issue-count">0</span>)
-            </span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="issue-input" class="input-field" placeholder="Tên công việc tồn đọng..." style="height: 34px; padding: 0 10px; font-size: 0.8rem;" />
-            <div style="display: flex; gap: 6px;">
-              <input type="date" id="issue-deadline" class="input-field" style="flex: 1; height: 32px; padding: 0 8px; font-size: 0.75rem;" />
-              <button class="btn btn-primary" id="btn-add-issue" style="width: auto; height: 32px; padding: 0 12px; font-size: 0.78rem;">Thêm</button>
-            </div>
-          </div>
-
-          <div id="issues-list-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
-            <!-- Issue items rendered via app.js -->
-          </div>
-        </div>
-
-        <!-- File Attachments Widget -->
-        <div class="calendar-widget" style="flex: 1; display: flex; flex-direction: column;">
-          <div class="calendar-header">
-            <span class="calendar-title" style="display: flex; align-items: center; gap: 6px;">
-              <i data-lucide="paperclip" style="width: 15px; height: 15px; color: var(--primary);"></i>
-              Tập Tin Đính Kèm
-            </span>
-          </div>
-
-          <div id="attachments-list-container" style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
-            <!-- Attachment items rendered via app.js -->
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Classroom Student Detail Side Content -->
-      <div id="classroom-right-bar-content" style="display: none; flex-direction: column; gap: 16px; height: 100%;">
-        <div id="classroom-student-detail-empty" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; font-size: 0.85rem;">
-          <i data-lucide="user-check" style="width: 40px; height: 40px; opacity: 0.4; margin-bottom: 8px;"></i>
-          Chọn một sinh viên để xem chi tiết thông tin và lịch sử vi phạm.
-        </div>
-
-        <div id="classroom-student-detail-view" style="display: none; flex-direction: column; gap: 14px; height: 100%; overflow-y: auto;">
-          <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);">
-            <div id="detail-student-avatar" class="student-avatar" style="width: 44px; height: 44px; font-size: 1.1rem;">SV</div>
-            <div>
-              <h3 id="detail-student-name" style="font-size: 1rem; font-weight: 700;">Nguyễn Văn A</h3>
-              <span id="detail-student-badge"></span>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 6px;">
-            <button class="btn" id="detail-btn-edit-student" style="flex: 1; height: 32px; font-size: 0.75rem;">Sửa</button>
-            <button class="btn btn-danger-outline" id="detail-btn-delete-student" style="flex: 1; height: 32px; font-size: 0.75rem;">Xóa</button>
-          </div>
-
-          <div id="detail-student-fields-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem;"></div>
-
-          <div style="border-top: 1px solid var(--border-light); pt: 12px; margin-top: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span style="font-size: 0.85rem; font-weight: 700;">Ghi Lỗi & Vi Phạm</span>
-              <button class="btn btn-primary" id="detail-btn-add-violation" style="width: auto; height: 26px; padding: 0 8px; font-size: 0.72rem;">+ Thêm Lỗi</button>
-            </div>
-
-            <!-- Quick Tag Chips -->
-            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px;">
-              <button class="btn btn-violation-chip" id="tag-vang-khong-phep">Vắng không phép</button>
-              <button class="btn btn-violation-chip" id="tag-vang-co-phep">Vắng có phép</button>
-              <button class="btn btn-violation-chip" id="tag-di-muon">Đi muộn</button>
-              <button class="btn btn-violation-chip" id="tag-khong-bai-tap">Không làm bài tập</button>
-              <button class="btn btn-violation-chip" id="tag-khong-chuan-bi">Không chuẩn bị bài</button>
-            </div>
-
-            <div id="detail-student-violations-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
-          </div>
-        </div>
-      </div>
-
-    </aside>
-  </div>
-
-  <!-- ────────────── POPUPS & MODALS ────────────── -->
-
-  <!-- Image/File Preview Modal -->
-  <div class="modal-overlay" id="preview-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center;">
-    <div style="position: relative; max-width: 90vw; max-height: 90vh; background: var(--bg-secondary); border-radius: var(--border-radius-md); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h4 id="modal-preview-title" style="font-size: 1rem; font-weight: 700;">Xem file</h4>
-        <button id="modal-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
-      <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <img id="modal-preview-img" src="" alt="Preview" style="max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px;" />
-      </div>
-      <a id="modal-download-btn" href="#" download class="btn btn-primary" style="text-decoration: none;">Tải file xuống</a>
     </div>
   </div>
 
-  <!-- Quick Info Vault Modal -->
-  <div class="modal-overlay" id="quick-info-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 480px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--gold);">Kho Thông Tin Nhanh (Vault)</h3>
-        <button id="quick-info-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
+  <!-- Mobile Slide-out Drawer -->
+  <div class="nav-mobile-drawer" id="v1-mobile-drawer">
+    <a href="#tong-quan" class="v1-nav-item">Tổng quan khóa học</a>
+    <a href="#doi-tuong" class="v1-nav-item">Đối tượng tham gia</a>
+    <a href="#qua-tang" class="v1-nav-item">Quà tặng đặc biệt</a>
+    <a href="#coach" class="v1-nav-item">Giảng viên Ngô Xuân Vũ</a>
+    <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener" class="btn-primary" style="width:100%;margin-top:10px;">Đăng ký tham gia Zalo →</a>
+  </div>
+</header>
 
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <input type="text" id="quick-info-title-input" class="input-field" placeholder="Tiêu đề (VD: Số TK Ngân hàng)" style="height: 36px; padding: 0 10px; font-size: 0.85rem;" />
-        <textarea id="quick-info-value-input" class="input-field" placeholder="Nội dung cần lưu trữ nhanh..." style="height: 70px; padding: 8px 10px; font-size: 0.85rem; resize: vertical;"></textarea>
-        <div id="quick-info-btn-group" style="display: flex; gap: 8px;">
-          <button class="btn btn-primary" id="btn-add-quick-info" style="height: 34px; font-size: 0.8rem;">+ Thêm Thông Tin</button>
+<!-- HERO -->
+<section class="hero" id="tong-quan">
+  <div class="hero-inner">
+
+    <!-- Left -->
+    <div>
+      <div class="hero-tag">
+        <div class="hero-tag-dot"></div>
+        3 buổi Coaching Online · 11–13/8/2026
+      </div>
+      <h1 class="hero-h1">
+        Giải mã <span class="gold-accent">nghẽn<br>doanh thu</span><br>
+        <span class="accent">đột phá bứt phá</span>
+      </h1>
+      <p class="hero-desc">
+        Chương trình coaching CEO SME chuyên sâu: chẩn đoán 12 điểm nghẽn, xây chiến lược tăng trưởng và vận hành đội ngũ tự động nhân bản — trong 3 buổi tối.
+      </p>
+      <div class="hero-actions">
+        <a href="https://zalo.me/g/bpmqbq067" class="btn-primary" target="_blank" rel="noopener">Đăng ký ngay qua Zalo</a>
+        <a href="#doi-tuong" class="btn-outline">Xem chi tiết khóa học</a>
+      </div>
+      <p class="hero-note">Số lượng có hạn · Ưu tiên đăng ký sớm · Học Online 20:00–22:00</p>
+    </div>
+
+    <!-- Right: Poster image -->
+    <div class="hero-poster-wrap">
+      <img src="poster.jpg" alt="Khóa học Giải Mã Nghẽn Doanh Thu – Ngô Xuân Vũ NLP Master Coach" />
+      <div class="hero-poster-badge">
+        <div class="dot-live"></div>
+        <span>Đăng ký qua Zalo</span>
+        <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener">Tham gia ngay →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="big">3</div>
+      <div class="small">Buổi coaching chuyên sâu</div>
+    </div>
+    <div class="stat-item">
+      <div class="big">12</div>
+      <div class="small">Điểm nghẽn doanh thu</div>
+    </div>
+    <div class="stat-item">
+      <div class="big">1:1</div>
+      <div class="small">Coaching cá nhân 60 phút</div>
+    </div>
+    <div class="stat-item">
+      <div class="big">4T</div>
+      <div class="small">Chiến lược bứt phá cuối năm</div>
+    </div>
+  </div>
+</div>
+
+<!-- DÀNH CHO AI -->
+<section class="section" id="doi-tuong">
+  <div class="section-inner">
+    <div class="section-label">Dành cho ai?</div>
+    <h2 class="section-title">Chương trình được thiết kế cho Chủ DN · CEO · Quản lý cấp trung</h2>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-card-icon red">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 17L13.5 8.5L8.5 13.5L2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+        </div>
+        <h3>Doanh thu chững lại, không bứt phá</h3>
+        <p>Kinh doanh ổn định nhưng không tăng trưởng. Cảm giác cố gắng mãi không tiến lên được.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon gold">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Đội ngũ thiếu động lực, rời rạc</h3>
+        <p>Nhân sự thiếu chủ động, rời rạc. CEO phải trực tiếp xử lý mọi việc thay vì tập trung chiến lược.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon orange">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        </div>
+        <h3>Chiến lược chưa rõ ràng, thiếu hệ thống</h3>
+        <p>Có tầm nhìn nhưng không biết triển khai. Thiếu lộ trình hành động cụ thể, đo lường được.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3>Muốn tăng trưởng mạnh 4 tháng cuối năm</h3>
+        <p>Cần một kế hoạch bứt phá rõ ràng, có định hướng chuyên sâu từ NLP Master Coach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÀ TẶNG -->
+<section class="section section-alt" id="qua-tang">
+  <div class="section-inner">
+    <div class="section-label">Quà tặng đặc biệt</div>
+    <h2 class="section-title">Đăng ký sớm nhận thêm 2 quà tặng giá trị</h2>
+    <div class="gifts-grid">
+      <div class="gift-card">
+        <div class="gift-tag">Quà tặng 01</div>
+        <div class="gift-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Phiếu Chẩn Đoán 12 Điểm Nghẽn Doanh Thu™</h3>
+        <p>Coaching 1:1 trực tiếp cùng chuyên gia 60 phút chẩn đoán chi tiết điểm nghẽn doanh nghiệp.</p>
+      </div>
+      <div class="gift-card">
+        <div class="gift-tag">Quà tặng 02</div>
+        <div class="gift-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>1 Giờ Định Hướng Trước Khóa Học</h3>
+        <p>Phiên làm việc 1 kèm 1 trực tiếp cùng chuyên gia Ngô Xuân Vũ thiết lập lộ trình cá nhân hóa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GIẢNG VIÊN -->
+<section class="coach-section" id="coach">
+  <div class="coach-inner">
+    <div class="coach-photo-wrap">
+      <div class="coach-photo-bg">
+        <img src="coach_hero.png" alt="Coach Ngô Xuân Vũ – NLP Master Coach" />
+      </div>
+      <div class="coach-photo-badge">
+        <div class="badge-num">10+</div>
+        <div class="badge-txt">Năm kinh nghiệm<br>coaching CEO</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="coach-label">Giảng viên / Master Coach</div>
+      <h2 class="coach-name">Ngô Xuân Vũ</h2>
+      <div class="coach-title">NLP Master Coach</div>
+      <p class="coach-bio">
+        Chuyên gia hàng đầu về giải cứu doanh thu và phát triển doanh nghiệp tự động nhân bản. Với hơn 10 năm kinh nghiệm coaching CEO SME, đã giúp hàng trăm doanh nghiệp bứt phá doanh thu và xây dựng hệ thống vận hành tự động.
+      </p>
+      <ul class="coach-creds">
+        <li>
+          <div class="cred-dot">
+            <svg viewBox="0 0 10 10"><polyline points="2,5 4,8 8,2"/></svg>
+          </div>
+          Chủ tịch SBC MeMong
+        </li>
+        <li>
+          <div class="cred-dot">
+            <svg viewBox="0 0 10 10"><polyline points="2,5 4,8 8,2"/></svg>
+          </div>
+          Nhà sáng lập XV.NLP ACADEMY
+        </li>
+        <li>
+          <div class="cred-dot">
+            <svg viewBox="0 0 10 10"><polyline points="2,5 4,8 8,2"/></svg>
+          </div>
+          Chuyên gia giải cứu doanh thu &amp; phát triển doanh nghiệp tự động nhân bản
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="dang-ky">
+  <div class="cta-card">
+    <div>
+      <h2 class="cta-title">Đăng ký ngay khóa học<br>Giải Mã Nghẽn Doanh Thu</h2>
+      <p class="cta-desc">Nhận lộ trình hành động rõ ràng, chiến lược tăng trưởng để bứt phá 4 tháng cuối năm 2026.</p>
+    </div>
+    <div class="cta-box">
+      <h3>Thông tin khóa học</h3>
+      <ul class="cta-list">
+        <li>3 buổi Online: 11, 12, 13 tháng 8/2026</li>
+        <li>Giờ học: 20:00 – 22:00 mỗi tối</li>
+        <li>Hình thức: Học qua Zoom</li>
+        <li>Coaching 1:1 kèm theo (quà tặng)</li>
+      </ul>
+      <a href="https://zalo.me/g/bpmqbq067" id="main-register-btn" class="cta-btn" target="_blank" rel="noopener">Đăng ký ngay qua Zalo →</a>
+      <div class="qr-divider">hoặc quét mã Zalo để tham gia</div>
+      <div class="qr-wrap">
+        <a href="https://zalo.me/g/bpmqbq067" target="_blank" rel="noopener">
+          <img src="qr_zalo.png" alt="Mã QR Zalo" />
+        </a>
+        <div class="qr-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Quét bằng Zalo hoặc <a href="https://zalo.me/g/bpmqbq067" target="_blank" style="color:var(--green);font-weight:700;">click vào đây</a>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div id="quick-info-search-wrapper" style="position: relative;">
-        <input type="text" id="quick-info-search-input" class="input-field" placeholder="Tìm thông tin nhanh..." style="width: 100%; height: 34px; padding: 0 10px; font-size: 0.8rem;" />
-      </div>
+<!-- STANDALONE PREMIUM FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <img src="logo.png" alt="Ngô Xuân Vũ Logo" class="footer-logo-img" />
+      <h3 class="footer-brand-title">XV.NLP ACADEMY</h3>
+      <p class="footer-brand-desc">
+        <strong>Chiến lược • Tư duy • Hành động.</strong><br>
+        Nâng tầm giá trị & kiến tạo doanh nghiệp khỏe mạnh, tăng trưởng bền vững cho Chủ doanh nghiệp Việt Nam.
+      </p>
+    </div>
 
-      <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">
-        Danh sách thông tin (<span id="quick-info-count">0</span>)
-      </div>
+    <div>
+      <h4 class="footer-heading">LIÊN KẾT NHANH</h4>
+      <ul class="footer-links">
+        <li><a href="#tong-quan">Tổng Quan Khóa Học</a></li>
+        <li><a href="#doi-tuong">Đối Tượng Tham Gia</a></li>
+        <li><a href="#qua-tang">Quà Tặng Đặc Biệt</a></li>
+        <li><a href="#coach">Giảng Viên Ngô Xuân Vũ</a></li>
+        <li><a href="#dang-ky">Đăng Ký Tham Gia Zalo</a></li>
+      </ul>
+    </div>
 
-      <div id="quick-info-list-container" style="max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+    <div>
+      <h4 class="footer-heading">KẾT NỐI THƯƠNG HIỆU</h4>
+      <ul class="footer-social-list">
+        <li>
+          <a href="https://youtube.com" class="footer-social-item" target="_blank" rel="noopener">
+            <div class="social-icon-box youtube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </div>
+            <span><strong>YouTube:</strong> Ngô Xuân Vũ - XV.NLP Academy</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://facebook.com" class="footer-social-item" target="_blank" rel="noopener">
+            <div class="social-icon-box facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+            <span><strong>Fanpage:</strong> XV.NLP Academy</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://facebook.com" class="footer-social-item" target="_blank" rel="noopener">
+            <div class="social-icon-box user">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span><strong>Facebook:</strong> Xuân Vũ Ngô</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://zalo.me/g/bpmqbq067" class="footer-social-item" target="_blank" rel="noopener">
+            <div class="social-icon-box zalo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <span><strong>Zalo Group:</strong> Kết Nối Trao Giá Trị</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <!-- Class Config Modal -->
-  <div class="modal-overlay" id="class-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 id="class-modal-title" style="font-size: 1.1rem; font-weight: 700;">Tạo Lớp Học</h3>
-        <button id="class-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
-
-      <div>
-        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Tên Lớp Học *</label>
-        <input type="text" id="class-name-input" class="input-field" placeholder="VD: NLP Master K12" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
-      </div>
-
-      <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <label style="font-size: 0.8rem; font-weight: 600;">Trường thông tin sinh viên tùy chỉnh</label>
-          <button class="btn" id="btn-add-custom-field" style="width: auto; height: 26px; padding: 0 8px; font-size: 0.72rem;">+ Thêm trường</button>
-        </div>
-        <div id="class-fields-list-builder" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
-      </div>
-
-      <button class="btn btn-primary" id="btn-save-class" style="height: 38px; font-size: 0.85rem;">Lưu Cấu Hình Lớp</button>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p>© 2026 XV.NLP ACADEMY • Master Coach Ngô Xuân Vũ. All rights reserved.</p>
+      <p>Bản quyền thuộc về Ngô Xuân Vũ</p>
     </div>
   </div>
+</footer>
 
-  <!-- Student Info Modal -->
-  <div class="modal-overlay" id="student-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 id="student-modal-title" style="font-size: 1.1rem; font-weight: 700;">Thêm Sinh Viên</h3>
-        <button id="student-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('v1-mobile-toggle');
+    const drawer = document.getElementById('v1-mobile-drawer');
+    const items = document.querySelectorAll('.v1-nav-item');
 
-      <div id="student-fields-container" style="display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto;"></div>
+    if (toggleBtn && drawer) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawer.classList.toggle('active');
+      });
 
-      <button class="btn btn-primary" id="btn-save-student" style="height: 38px; font-size: 0.85rem;">Lưu Sinh Viên</button>
-    </div>
-  </div>
+      items.forEach(item => {
+        item.addEventListener('click', () => drawer.classList.remove('active'));
+      });
 
-  <!-- Violation Log Modal -->
-  <div class="modal-overlay" id="violation-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 400px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="font-size: 1.05rem; font-weight: 700;">Ghi Lỗi Vi Phạm</h3>
-        <button id="violation-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+          drawer.classList.remove('active');
+        }
+      });
+    }
 
-      <p style="font-size: 0.85rem; color: var(--text-muted);">Sinh viên: <strong id="violation-student-name" style="color: var(--text-main);"></strong></p>
-
-      <div>
-        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Nội dung vi phạm / Ghi chú *</label>
-        <input type="text" id="violation-content-input" class="input-field" placeholder="VD: Đi muộn 15 phút" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
-      </div>
-
-      <div>
-        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Ngày vi phạm</label>
-        <input type="date" id="violation-date-input" class="input-field" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
-      </div>
-
-      <button class="btn btn-primary" id="btn-save-violation" style="height: 38px; font-size: 0.85rem;">Xác Nhận Ghi Lỗi</button>
-    </div>
-  </div>
-
-  <!-- Violation History Modal -->
-  <div class="modal-overlay" id="violation-history-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="font-size: 1.05rem; font-weight: 700;">Lịch Sử Vi Phạm - <span id="violation-history-student-name-span"></span></h3>
-        <button id="violation-history-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
-      </div>
-
-      <div id="violation-history-list" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
-    </div>
-  </div>
-
-  <!-- Standard Confirmation Dialog Modal -->
-  <div class="modal-overlay" id="confirm-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 3000; align-items: center; justify-content: center;">
-    <div class="modal-card" style="width: 380px; max-width: 90vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-      <div id="confirm-modal-icon-container" style="width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"></div>
-      <h3 id="confirm-modal-title" style="font-size: 1.1rem; font-weight: 700;">Xác Nhận</h3>
-      <p id="confirm-modal-message" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;"></p>
-      <div style="display: flex; gap: 10px; width: 100%; margin-top: 6px;">
-        <button class="btn" id="btn-confirm-cancel" style="flex: 1; height: 38px;">Hủy Bỏ</button>
-        <button class="btn" id="btn-confirm-ok" style="flex: 1; height: 38px;">Đồng Ý</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div id="toast-container" style="position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 4000; pointer-events: none;"></div>
-
-  <!-- Application Logic (ES Module) -->
-  <script type="module" src="app.js"></script>
+    // Google Sheets Handler for V1
+    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyoO5eD_2ZmdpWPHIHRh4cNhIa0bv7IuIY5UjL4lnPXfsobu4V6NArDgA1FuuQHYemD-A/exec';
+    async function sendLeadToGoogleSheet(leadData) {
+      if (!GOOGLE_SHEET_SCRIPT_URL) return;
+      try {
+        const formData = new URLSearchParams();
+        for (const key in leadData) {
+          formData.append(key, leadData[key]);
+        }
+        await fetch(GOOGLE_SHEET_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+        });
+      } catch (err) {
+        console.warn('Google Sheet send warning:', err);
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
