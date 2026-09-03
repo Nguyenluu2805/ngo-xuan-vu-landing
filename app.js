@@ -398,8 +398,30 @@ function switchMode(mode) {
   }
 }
 
+async function ensureDefaultClasses() {
+  const seeded = localStorage.getItem('auto_seed_ks25_v2');
+  if (seeded) return;
+  try {
+    const existingClasses = await db.getClasses();
+    const hasCNTT7 = existingClasses.some(c => c.name === 'KS25_CNTT7');
+    const hasCNTT5 = existingClasses.some(c => c.name === 'KS25_CNTT5');
+
+    if (!hasCNTT7 && typeof seedKS25CNTT7 === 'function') {
+      await seedKS25CNTT7();
+    }
+    if (!hasCNTT5 && typeof seedKS25CNTT5 === 'function') {
+      await seedKS25CNTT5();
+    }
+    localStorage.setItem('auto_seed_ks25_v2', 'true');
+  } catch (err) {
+    console.error('Error auto-seeding default classes:', err);
+  }
+}
+
 async function loadClasses() {
   try {
+    await ensureDefaultClasses();
+
     classesListState = await db.getClasses();
     renderClasses();
     
@@ -412,6 +434,8 @@ async function loadClasses() {
         activeClassId = null;
         showClassroomEmptyState();
       }
+    } else if (classesListState.length > 0) {
+      selectClass(classesListState[0].id);
     } else {
       showClassroomEmptyState();
     }
@@ -4934,7 +4958,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 // ─── SEED HELPER ──────────────────────────────────────────────────────────────
 // Gọi hàm này một lần từ DevTools console sau khi đăng nhập:  seedKS25CNTT7()
-window.seedKS25CNTT7 = async function() {
+async function seedKS25CNTT7() {
   const classId = 'class_ks25_cntt7';
   const className = 'KS25_CNTT7';
   const fields = [
@@ -5020,7 +5044,7 @@ window.seedKS25CNTT7 = async function() {
 };
 
 // Gọi hàm này để seed lớp KS25_CNTT5:  seedKS25CNTT5()
-window.seedKS25CNTT5 = async function() {
+async function seedKS25CNTT5() {
   const classId = 'class_ks25_cntt5';
   const className = 'KS25_CNTT5';
   const fields = [
@@ -5104,10 +5128,13 @@ window.seedKS25CNTT5 = async function() {
   console.log('👉 Tải lại trang hoặc chuyển sang chế độ Classroom để xem.');
 };
 
+window.seedKS25CNTT7 = seedKS25CNTT7;
+window.seedKS25CNTT5 = seedKS25CNTT5;
+
 // Seed cả hai lớp cùng lúc
 window.seedAllClasses = async function() {
   console.log('⏳ Bắt đầu seed toàn bộ...');
-  await window.seedKS25CNTT7();
-  await window.seedKS25CNTT5();
+  await seedKS25CNTT7();
+  await seedKS25CNTT5();
   console.log('✨ Đã hoàn thành seed cả 2 lớp!');
 };
