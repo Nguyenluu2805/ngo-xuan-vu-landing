@@ -4931,3 +4931,183 @@ function setupEventListeners() {
 
 // Start application
 document.addEventListener('DOMContentLoaded', init);
+
+// ─── SEED HELPER ──────────────────────────────────────────────────────────────
+// Gọi hàm này một lần từ DevTools console sau khi đăng nhập:  seedKS25CNTT7()
+window.seedKS25CNTT7 = async function() {
+  const classId = 'class_ks25_cntt7';
+  const className = 'KS25_CNTT7';
+  const fields = [
+    { id: 'email', name: 'Email', type: 'text' },
+    { id: 'mssv',  name: 'MSSV',  type: 'text' }
+  ];
+
+  const students = [
+    { stt: 1,  name: 'Phạm Thanh Đài',          email: 'phamthanhdai12345@gmail.com' },
+    { stt: 2,  name: 'Đỗ Minh Đặng',             email: 'dangdo090507@gmail.com' },
+    { stt: 3,  name: 'Nguyễn Kim Thành Đạt',     email: 'datkim2222@gmail.com' },
+    { stt: 4,  name: 'Hồ Quang Duy',             email: 'quangduybin2007@gmail.com' },
+    { stt: 5,  name: 'Hồ Hữu Hoài Nam',          email: 'hoainamho146@gmail.com' },
+    { stt: 6,  name: 'Trần Hiếu Nghĩa',          email: 'mcl541ngogiatu@gmail.com' },
+    { stt: 7,  name: 'Trần Hoàng Nguyên',        email: 'trannguyenhoang2007@gmail.com' },
+    { stt: 8,  name: 'Phạm Ngọc Quỳnh Như',      email: 'mina03239@gmail.com' },
+    { stt: 9,  name: 'Trịnh Thị Hồng Quyên',     email: 'hongquyen2007.bh@gmail.com' },
+    { stt: 10, name: 'Đỗ Xuân Tân',              email: 'doxuantan1999a0@gmail.com' },
+    { stt: 11, name: 'Ngô Thiên Thạch',          email: 'ngo67775@gmail.com' },
+    { stt: 12, name: 'Nguyễn Vân Trường',        email: 'nguyenvantruong130627@gmail.com' },
+    { stt: 13, name: 'Lã Duy Khang',             email: 'laduykhang776353@gmail.com' },
+    { stt: 14, name: 'Nguyễn Duy Đạt',           email: 'datllkk456@gmail.com' },
+    { stt: 15, name: 'Nguyễn Minh Thức',         email: 'nmthuc2007@gmail.com' },
+    { stt: 16, name: 'Đỗ Minh Tiến',             email: 'cudm2001@gmail.com' },
+    { stt: 17, name: 'Huỳnh Công Danh',          email: 'danhc7620@gmail.com' },
+    { stt: 18, name: 'Nguyễn Quốc Thắng',        email: 'tn0914534@gmail.com' },
+    { stt: 19, name: 'Trần Đức Ngọc',            email: 'tranducngoc171717@gmail.com' },
+    { stt: 20, name: 'Dương Gia Hưng',           email: 'duonghung5637@gmail.com' },
+    { stt: 21, name: 'Nguyễn Văn Hoàn',          email: 'nguyenhoan18042007@gmail.com' },
+    { stt: 22, name: 'Phạm Việt Thành 2',        email: 'pham.vietthanh11062007@gmail.com' },
+    { stt: 23, name: 'Hứa Xuân Thiên',           email: 'huathien23102006@gmail.com' },
+    { stt: 24, name: 'Nguyễn Thiên Bảo',         email: 'ntb8378@gmail.com' },
+    { stt: 25, name: 'Nguyễn Khắc Duy 2',        email: 'duynguyenkhac0373@gmail.com' },
+    { stt: 26, name: 'Lê Thanh Hải',             email: 'lethanhhaidzvcl@gmail.com' },
+    { stt: 27, name: 'Bùi Minh Hiếu',            email: 'hacowibu@gmail.com' },
+    { stt: 28, name: 'Lê Hải Nguyên',            email: 'lehainguyen876@gmail.com' },
+    { stt: 29, name: 'Nguyễn Thành Tài',         email: 'nguyenthanhtai311007@gmail.com' },
+    { stt: 30, name: 'Đặng Đức Tín',             email: 'dtyn13579@gmail.com' },
+    { stt: 31, name: 'Tăng Duy Khánh',           email: 'khanhtang450@gmail.com' },
+    { stt: 32, name: 'Bùi Minh Đức 2',           email: 'mduc04717@gmail.com' },
+    { stt: 33, name: 'Đinh Quang Hào',           email: 'fshi0206@gmail.com' },
+    { stt: 34, name: 'Trần Văn Khiêm',           email: 'tranvankhien0307@gmail.com' },
+    { stt: 35, name: 'Đặng Thành Đạt 2',         email: 'dangthanhdat1508@gmail.com' },
+    { stt: 36, name: 'Nguyễn Thị Thu Hiền 2',    email: 'nguyentth0909@gmail.com' },
+    { stt: 37, name: 'Trần Quang Long 2',        email: 'ruymej@gmail.com' },
+    { stt: 38, name: 'Huỳnh Quốc Huy',           email: 'huynoob2406@gmail.com' },
+    { stt: 39, name: 'Tăng Mạnh Khang',          email: 'ankhangbc.2021@gmail.com' },
+  ];
+
+  console.log('🚀 Bắt đầu seed lớp KS25_CNTT7...');
+
+  // 1. Lưu lớp học vào IndexedDB
+  await db.saveClass(classId, className, fields);
+  console.log('✅ Đã lưu lớp học vào IndexedDB');
+
+  // 2. Sync lên Firebase nếu đã kết nối
+  if (firebaseSync.isConnected()) {
+    await firebaseSync.uploadClass(classId, className, fields);
+    console.log('☁️  Đã sync lớp học lên Firebase');
+  }
+
+  // 3. Thêm từng sinh viên
+  for (const s of students) {
+    const now = Date.now();
+    const studentData = {
+      id: `stud_ks25cntt7_${s.stt}_${Math.random().toString(36).substr(2, 6)}`,
+      classId,
+      name: s.name,
+      email: s.email,
+      mssv: '',
+      violations: [],
+      createdAt: new Date().toISOString()
+    };
+    await db.saveStudent(studentData);
+    if (firebaseSync.isConnected()) {
+      await firebaseSync.uploadStudent(studentData);
+    }
+    console.log(`  ✔ ${s.stt}. ${s.name}`);
+  }
+
+  console.log('🎉 Seed xong! 39 sinh viên đã được thêm vào lớp KS25_CNTT7.');
+  console.log('👉 Tải lại trang hoặc chuyển sang chế độ Classroom để xem.');
+};
+
+// Gọi hàm này để seed lớp KS25_CNTT5:  seedKS25CNTT5()
+window.seedKS25CNTT5 = async function() {
+  const classId = 'class_ks25_cntt5';
+  const className = 'KS25_CNTT5';
+  const fields = [
+    { id: 'email', name: 'Email', type: 'text' },
+    { id: 'mssv',  name: 'MSSV',  type: 'text' }
+  ];
+
+  const students = [
+    { stt: 1,  name: 'Đoàn Thị Minh Anh',         email: 'anhdoan20071908@gmail.com' },
+    { stt: 2,  name: 'Đồng Văn Tiến Hưng',        email: 'dongvantienhung456@gmail.com' },
+    { stt: 3,  name: 'Nguyễn Đức Huy 4',          email: 'Huydaobang098@gmail.com' },
+    { stt: 4,  name: 'Nguyễn Trọng Khang',        email: 'trongkhangnguyen153@gmail.com' },
+    { stt: 5,  name: 'Lê Phước Lộc',              email: 'lephuocloc00z12@gmail.com' },
+    { stt: 6,  name: 'Vũ Hoàng Nhiệm',            email: 'Vunhiemok@gmail.com' },
+    { stt: 7,  name: 'Lê Quang Phúc',             email: 'tonysama355@gmail.com' },
+    { stt: 8,  name: 'Hoàng Minh Quân',           email: 'quanhoagn@gmail.com' },
+    { stt: 9,  name: 'Nguyễn Hoàng Quân 3',       email: 'quanlunxds@gmail.com' },
+    { stt: 10, name: 'Phùng Thanh Tùng 2',        email: 'thanhtungphung43@gmail.com' },
+    { stt: 11, name: 'Ngô Quốc Anh 2',            email: 'quocanh.04.007@gmail.com' },
+    { stt: 12, name: 'Nguyễn Phương Vy',          email: 'phuonvy1501@gmail.com' },
+    { stt: 13, name: 'Nguyễn Khánh Hưng',         email: 'nkh22042007@gmail.com' },
+    { stt: 14, name: 'Phạm Quốc Anh',             email: 'phamquocanha5k02@gmail.com' },
+    { stt: 15, name: 'Huỳnh Hồ Nhĩ Đan',          email: 'huynhhonhidan@gmail.com' },
+    { stt: 16, name: 'Nguyễn Minh Tuấn',          email: 'nguyenminhtuan26127@gmail.com' },
+    { stt: 17, name: 'Tạ Ngọc Phúc',              email: 'phucdihoc133@gmail.com' },
+    { stt: 18, name: 'Nguyễn Minh Trung',         email: 'ft.trung0902@gmail.com' },
+    { stt: 19, name: 'Nguyễn Tấn Du',             email: 'du01012004@gmail.com' },
+    { stt: 20, name: 'Trịnh Trần Công Huy',       email: 'konoihuy@gmail.com' },
+    { stt: 21, name: 'Trần Văn Mỹ',               email: 'huynhthihienpy77@gmail.com' },
+    { stt: 22, name: 'Huỳnh Nhơn Nguyên Nghiệp',  email: 'huynhnghiep20072020@gmail.com' },
+    { stt: 23, name: 'Vũ Cao Nguyên',             email: 'nguyencaovu2007@gmail.com' },
+    { stt: 24, name: 'Nguyễn Ngô Quốc Thịnh',     email: 'nguyenngothinh669@gmail.com' },
+    { stt: 25, name: 'Nguyễn Văn Thông',          email: 'nguyenthong12122015@gmail.com' },
+    { stt: 26, name: 'Lê Tấn Toàn',               email: 'lttoan327ldh@gmail.com' },
+    { stt: 27, name: 'Lâm Nhựt Hải Đăng',         email: 'kyuu449977@gmail.com' },
+    { stt: 28, name: 'Nguyễn Phát Đạt',           email: 'phatdatggg@gmail.com' },
+    { stt: 29, name: 'Võ Thanh Điền',             email: 'thanhdien071207@gmail.com' },
+    { stt: 30, name: 'Nguyễn Võ Gia Hân',         email: 'nguyenvogiahan73@gmail.com' },
+    { stt: 31, name: 'Lương Hoàng Huy',           email: 'lhuy28260@gmail.com' },
+    { stt: 32, name: 'Phan Hoàng Sơn',            email: 'sonhoang000888@gmail.com' },
+    { stt: 33, name: 'Nguyễn Hoàng Thành',        email: 'nguyenhoangggh@gmail.com' },
+    { stt: 34, name: 'Phạm Đình Thương',          email: 'dinhthuong979@gmail.com' },
+    { stt: 35, name: 'Hoàng Mai Phương',          email: 'hoangmaiphuongtin@gmail.com' },
+    { stt: 36, name: 'Lê Trung Hiếu 4',           email: 'warmdevofficial@gmail.com' },
+    { stt: 37, name: 'Lê Tuấn Anh 4',             email: 'tuananhbigboi@gmail.com' },
+    { stt: 38, name: 'Hoàng Dương Nam',           email: 'hoangduongnampb.2k6@gmail.com' },
+    { stt: 39, name: 'Nguyễn Đức Huy 2',          email: 'huyrvt21102007@gmail.com' },
+  ];
+
+  console.log('🚀 Bắt đầu seed lớp KS25_CNTT5...');
+
+  // 1. Lưu lớp học vào IndexedDB
+  await db.saveClass(classId, className, fields);
+  console.log('✅ Đã lưu lớp học vào IndexedDB');
+
+  // 2. Sync lên Firebase nếu đã kết nối
+  if (firebaseSync.isConnected()) {
+    await firebaseSync.uploadClass(classId, className, fields);
+    console.log('☁️  Đã sync lớp học lên Firebase');
+  }
+
+  // 3. Thêm từng sinh viên
+  for (const s of students) {
+    const studentData = {
+      id: `stud_ks25cntt5_${s.stt}_${Math.random().toString(36).substr(2, 6)}`,
+      classId,
+      name: s.name,
+      email: s.email,
+      mssv: '',
+      violations: [],
+      createdAt: new Date().toISOString()
+    };
+    await db.saveStudent(studentData);
+    if (firebaseSync.isConnected()) {
+      await firebaseSync.uploadStudent(studentData);
+    }
+    console.log(`  ✔ ${s.stt}. ${s.name}`);
+  }
+
+  console.log('🎉 Seed xong! 39 sinh viên đã được thêm vào lớp KS25_CNTT5.');
+  console.log('👉 Tải lại trang hoặc chuyển sang chế độ Classroom để xem.');
+};
+
+// Seed cả hai lớp cùng lúc
+window.seedAllClasses = async function() {
+  console.log('⏳ Bắt đầu seed toàn bộ...');
+  await window.seedKS25CNTT7();
+  await window.seedKS25CNTT5();
+  console.log('✨ Đã hoàn thành seed cả 2 lớp!');
+};
