@@ -350,11 +350,29 @@ export const db = {
     const db = await initDB();
     const transaction = db.transaction('students', 'readonly');
     const store = transaction.objectStore('students');
-    const index = store.index('classId');
     return new Promise((resolve, reject) => {
-      const request = index.getAll(IDBKeyRange.only(classId));
-      request.onsuccess = () => resolve(request.result || []);
-      request.onerror = () => reject(request.error);
+      try {
+        if (store.indexNames && store.indexNames.contains('classId')) {
+          const index = store.index('classId');
+          const request = index.getAll(IDBKeyRange.only(classId));
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error);
+        } else {
+          const request = store.getAll();
+          request.onsuccess = () => {
+            const all = request.result || [];
+            resolve(all.filter(s => s.classId === classId));
+          };
+          request.onerror = () => reject(request.error);
+        }
+      } catch (e) {
+        const request = store.getAll();
+        request.onsuccess = () => {
+          const all = request.result || [];
+          resolve(all.filter(s => s.classId === classId));
+        };
+        request.onerror = () => reject(request.error);
+      }
     });
   },
 

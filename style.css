@@ -3919,6 +3919,55 @@ body.light-mode .sidebar.collapsed #sidebar-classes-widget .calendar-header:hove
   animation: fadeInSidebarContent 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* --- UNIVERSAL MODAL OVERLAYS (Confirm, Class, Student, Violation, History, Vault, Preview) --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 7, 18, 0.82);
+  z-index: 3500;
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.modal-overlay .modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65);
+  transform: scale(0.96);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1);
+}
+
+body.light-mode .modal-overlay {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+body.light-mode .modal-overlay .modal-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+  color: var(--text-main);
+}
+
+
 
 
 

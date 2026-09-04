@@ -307,20 +307,31 @@ function showConfirm(title, message, type = 'info') {
     
     if (window.lucide) lucide.createIcons();
     
+    modal.style.display = 'flex';
     modal.classList.add('active');
     
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        cleanup(false);
+      }
+    };
+
     const cleanup = (value) => {
       modal.classList.remove('active');
-      btnOk.removeEventListener('click', onOk);
-      btnCancel.removeEventListener('click', onCancel);
+      modal.style.display = 'none';
+      btnOk.onclick = null;
+      btnCancel.onclick = null;
+      modal.onclick = null;
+      document.removeEventListener('keydown', onKeyDown);
       resolve(value);
     };
     
-    function onOk() { cleanup(true); }
-    function onCancel() { cleanup(false); }
-    
-    btnOk.addEventListener('click', onOk);
-    btnCancel.addEventListener('click', onCancel);
+    btnOk.onclick = () => cleanup(true);
+    btnCancel.onclick = () => cleanup(false);
+    modal.onclick = (e) => {
+      if (e.target === modal) cleanup(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
   });
 }
 
@@ -548,11 +559,19 @@ function renderClassFieldsBuilder() {
 }
 
 function openClassModal(cls = null) {
+  const btnDeleteCurrentClass = document.getElementById('btn-delete-current-class');
   if (cls) {
     editingClassId = cls.id;
     DOM.classModalTitle.textContent = 'Cấu hình lớp học';
     DOM.classNameInput.value = cls.name;
     classModalFields = normalizeClassFields(cls.fields);
+    if (btnDeleteCurrentClass) {
+      btnDeleteCurrentClass.style.display = 'inline-flex';
+      btnDeleteCurrentClass.onclick = () => {
+        DOM.classModal.classList.remove('active');
+        deleteClass(cls.id);
+      };
+    }
   } else {
     editingClassId = null;
     DOM.classModalTitle.textContent = 'Tạo lớp học mới';
@@ -561,6 +580,10 @@ function openClassModal(cls = null) {
       { id: 'mssv', name: 'MSSV', type: 'text' },
       { id: 'phone', name: 'Số điện thoại', type: 'text' }
     ];
+    if (btnDeleteCurrentClass) {
+      btnDeleteCurrentClass.style.display = 'none';
+      btnDeleteCurrentClass.onclick = null;
+    }
   }
   renderClassFieldsBuilder();
   DOM.classModal.classList.add('active');
@@ -600,9 +623,12 @@ async function addOrUpdateClass() {
 }
 
 async function deleteClass(classId) {
+  const targetClass = classesListState.find(c => c.id === classId);
+  const className = targetClass ? `lớp "${targetClass.name}"` : 'lớp học này';
+
   const confirmed = await showConfirm(
     'Xóa lớp học', 
-    'Bạn có chắc chắn muốn xóa lớp học này? Toàn bộ danh sách học sinh và lịch sử vi phạm sẽ bị xóa vĩnh viễn.', 
+    `Bạn có chắc chắn muốn xóa ${className}? Toàn bộ danh sách học sinh và lịch sử vi phạm sẽ bị xóa vĩnh viễn.`, 
     'danger'
   );
   if (!confirmed) return;
@@ -617,7 +643,7 @@ async function deleteClass(classId) {
     // Delete class locally
     await db.deleteClass(classId);
     
-    showToast('Đã xóa lớp học');
+    showToast('Đã xóa lớp học thành công');
     if (activeClassId === classId) {
       activeClassId = null;
       selectedStudentId = null;
@@ -660,11 +686,27 @@ async function selectClass(classId) {
     <button class="btn btn-primary" id="btn-add-student" title="Thêm sinh viên" style="height: 36px; padding: 0 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; border-radius: var(--border-radius-md); box-shadow: 0 4px 12px var(--primary-glow);">
       <i data-lucide="plus-circle" style="width: 15px; height: 15px;"></i> <span class="btn-label-text">Thêm SV</span>
     </button>
+    <button class="btn" id="btn-header-config-class" title="Cấu hình lớp" style="height: 36px; width: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-md);">
+      <i data-lucide="settings" style="width: 15px; height: 15px;"></i>
+    </button>
+    <button class="btn" id="btn-header-delete-class" title="Xóa lớp học này" style="height: 36px; width: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-md); color: var(--danger);">
+      <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+    </button>
   `;
   
   const btnAddStudent = document.getElementById('btn-add-student');
   if (btnAddStudent) {
     btnAddStudent.addEventListener('click', () => openStudentModal());
+  }
+
+  const btnHeaderConfig = document.getElementById('btn-header-config-class');
+  if (btnHeaderConfig) {
+    btnHeaderConfig.addEventListener('click', () => openClassModal(selectedClass));
+  }
+
+  const btnHeaderDelete = document.getElementById('btn-header-delete-class');
+  if (btnHeaderDelete) {
+    btnHeaderDelete.addEventListener('click', () => deleteClass(classId));
   }
   
   selectedStudentId = null;
