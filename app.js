@@ -662,7 +662,10 @@ async function selectClass(classId) {
     </button>
   `;
   
-  document.getElementById('btn-add-student').addEventListener('click', () => openStudentModal());
+  const btnAddStudent = document.getElementById('btn-add-student');
+  if (btnAddStudent) {
+    btnAddStudent.addEventListener('click', () => openStudentModal());
+  }
   
   selectedStudentId = null;
   renderSelectedStudentDetail();
@@ -4318,24 +4321,34 @@ function setupEventListeners() {
     }
   });
   
-  document.getElementById('editor-action-upper').addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    changeTextCase('upper');
-  });
-  document.getElementById('editor-action-lower').addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    changeTextCase('lower');
-  });
+  const elUpper = document.getElementById('editor-action-upper');
+  if (elUpper) {
+    elUpper.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      changeTextCase('upper');
+    });
+  }
+
+  const elLower = document.getElementById('editor-action-lower');
+  if (elLower) {
+    elLower.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      changeTextCase('lower');
+    });
+  }
   
-  document.getElementById('editor-action-copy').addEventListener('mousedown', async (e) => {
-    e.preventDefault();
-    try {
-      await navigator.clipboard.writeText(DOM.notepadTextarea.innerText);
-      showToast('Đã sao chép toàn bộ văn bản ghi chép!');
-    } catch (err) {
-      showToast('Không thể sao chép văn bản!', 'error');
-    }
-  });
+  const elCopy = document.getElementById('editor-action-copy');
+  if (elCopy) {
+    elCopy.addEventListener('mousedown', async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(DOM.notepadTextarea.innerText);
+        showToast('Đã sao chép toàn bộ văn bản ghi chép!');
+      } catch (err) {
+        showToast('Không thể sao chép văn bản!', 'error');
+      }
+    });
+  }
 
   // Find and Replace panel toggling
   DOM.btnToggleFind.addEventListener('click', () => {
@@ -4798,12 +4811,14 @@ function setupEventListeners() {
   DOM.btnBoardImportNote.addEventListener('click', convertNoteToBoard);
   DOM.btnBoardConvertToNote.addEventListener('click', convertBoardToNote);
   
-  DOM.btnBoardAddText.addEventListener('click', () => {
-    const container = document.getElementById('sticky-board-canvas-container');
-    const x = container.scrollLeft + container.clientWidth / 2 - 120;
-    const y = container.scrollTop + container.clientHeight / 2 - 90;
-    addStickyNoteAtPosition(x, y, '', 'text-block');
-  });
+  if (DOM.btnBoardAddText) {
+    DOM.btnBoardAddText.addEventListener('click', () => {
+      const container = document.getElementById('sticky-board-canvas-container');
+      const x = container.scrollLeft + container.clientWidth / 2 - 120;
+      const y = container.scrollTop + container.clientHeight / 2 - 90;
+      addStickyNoteAtPosition(x, y, '', 'text-block');
+    });
+  }
 
   DOM.btnBoardClose.addEventListener('click', () => {
     saveBoardMode('notepad');
