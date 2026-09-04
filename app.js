@@ -398,30 +398,8 @@ function switchMode(mode) {
   }
 }
 
-async function ensureDefaultClasses() {
-  const seeded = localStorage.getItem('auto_seed_ks25_v2');
-  if (seeded) return;
-  try {
-    const existingClasses = await db.getClasses();
-    const hasCNTT7 = existingClasses.some(c => c.name === 'KS25_CNTT7');
-    const hasCNTT5 = existingClasses.some(c => c.name === 'KS25_CNTT5');
-
-    if (!hasCNTT7 && typeof seedKS25CNTT7 === 'function') {
-      await seedKS25CNTT7();
-    }
-    if (!hasCNTT5 && typeof seedKS25CNTT5 === 'function') {
-      await seedKS25CNTT5();
-    }
-    localStorage.setItem('auto_seed_ks25_v2', 'true');
-  } catch (err) {
-    console.error('Error auto-seeding default classes:', err);
-  }
-}
-
 async function loadClasses() {
   try {
-    await ensureDefaultClasses();
-
     classesListState = await db.getClasses();
     renderClasses();
     
@@ -434,8 +412,6 @@ async function loadClasses() {
         activeClassId = null;
         showClassroomEmptyState();
       }
-    } else if (classesListState.length > 0) {
-      selectClass(classesListState[0].id);
     } else {
       showClassroomEmptyState();
     }
