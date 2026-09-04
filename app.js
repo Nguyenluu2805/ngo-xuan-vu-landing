@@ -307,31 +307,20 @@ function showConfirm(title, message, type = 'info') {
     
     if (window.lucide) lucide.createIcons();
     
-    modal.style.display = 'flex';
     modal.classList.add('active');
     
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        cleanup(false);
-      }
-    };
-
     const cleanup = (value) => {
       modal.classList.remove('active');
-      modal.style.display = 'none';
-      btnOk.onclick = null;
-      btnCancel.onclick = null;
-      modal.onclick = null;
-      document.removeEventListener('keydown', onKeyDown);
+      btnOk.removeEventListener('click', onOk);
+      btnCancel.removeEventListener('click', onCancel);
       resolve(value);
     };
     
-    btnOk.onclick = () => cleanup(true);
-    btnCancel.onclick = () => cleanup(false);
-    modal.onclick = (e) => {
-      if (e.target === modal) cleanup(false);
-    };
-    document.addEventListener('keydown', onKeyDown);
+    function onOk() { cleanup(true); }
+    function onCancel() { cleanup(false); }
+    
+    btnOk.addEventListener('click', onOk);
+    btnCancel.addEventListener('click', onCancel);
   });
 }
 
@@ -559,19 +548,11 @@ function renderClassFieldsBuilder() {
 }
 
 function openClassModal(cls = null) {
-  const btnDeleteCurrentClass = document.getElementById('btn-delete-current-class');
   if (cls) {
     editingClassId = cls.id;
     DOM.classModalTitle.textContent = 'Cấu hình lớp học';
     DOM.classNameInput.value = cls.name;
     classModalFields = normalizeClassFields(cls.fields);
-    if (btnDeleteCurrentClass) {
-      btnDeleteCurrentClass.style.display = 'inline-flex';
-      btnDeleteCurrentClass.onclick = () => {
-        DOM.classModal.classList.remove('active');
-        deleteClass(cls.id);
-      };
-    }
   } else {
     editingClassId = null;
     DOM.classModalTitle.textContent = 'Tạo lớp học mới';
@@ -580,10 +561,6 @@ function openClassModal(cls = null) {
       { id: 'mssv', name: 'MSSV', type: 'text' },
       { id: 'phone', name: 'Số điện thoại', type: 'text' }
     ];
-    if (btnDeleteCurrentClass) {
-      btnDeleteCurrentClass.style.display = 'none';
-      btnDeleteCurrentClass.onclick = null;
-    }
   }
   renderClassFieldsBuilder();
   DOM.classModal.classList.add('active');
@@ -623,12 +600,9 @@ async function addOrUpdateClass() {
 }
 
 async function deleteClass(classId) {
-  const targetClass = classesListState.find(c => c.id === classId);
-  const className = targetClass ? `lớp "${targetClass.name}"` : 'lớp học này';
-
   const confirmed = await showConfirm(
     'Xóa lớp học', 
-    `Bạn có chắc chắn muốn xóa ${className}? Toàn bộ danh sách học sinh và lịch sử vi phạm sẽ bị xóa vĩnh viễn.`, 
+    'Bạn có chắc chắn muốn xóa lớp học này? Toàn bộ danh sách học sinh và lịch sử vi phạm sẽ bị xóa vĩnh viễn.', 
     'danger'
   );
   if (!confirmed) return;
@@ -643,7 +617,7 @@ async function deleteClass(classId) {
     // Delete class locally
     await db.deleteClass(classId);
     
-    showToast('Đã xóa lớp học thành công');
+    showToast('Đã xóa lớp học');
     if (activeClassId === classId) {
       activeClassId = null;
       selectedStudentId = null;
@@ -686,28 +660,9 @@ async function selectClass(classId) {
     <button class="btn btn-primary" id="btn-add-student" title="Thêm sinh viên" style="height: 36px; padding: 0 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; border-radius: var(--border-radius-md); box-shadow: 0 4px 12px var(--primary-glow);">
       <i data-lucide="plus-circle" style="width: 15px; height: 15px;"></i> <span class="btn-label-text">Thêm SV</span>
     </button>
-    <button class="btn" id="btn-header-config-class" title="Cấu hình lớp" style="height: 36px; width: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-md);">
-      <i data-lucide="settings" style="width: 15px; height: 15px;"></i>
-    </button>
-    <button class="btn" id="btn-header-delete-class" title="Xóa lớp học này" style="height: 36px; width: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-md); color: var(--danger);">
-      <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-    </button>
   `;
   
-  const btnAddStudent = document.getElementById('btn-add-student');
-  if (btnAddStudent) {
-    btnAddStudent.addEventListener('click', () => openStudentModal());
-  }
-
-  const btnHeaderConfig = document.getElementById('btn-header-config-class');
-  if (btnHeaderConfig) {
-    btnHeaderConfig.addEventListener('click', () => openClassModal(selectedClass));
-  }
-
-  const btnHeaderDelete = document.getElementById('btn-header-delete-class');
-  if (btnHeaderDelete) {
-    btnHeaderDelete.addEventListener('click', () => deleteClass(classId));
-  }
+  document.getElementById('btn-add-student').addEventListener('click', () => openStudentModal());
   
   selectedStudentId = null;
   renderSelectedStudentDetail();
@@ -4363,34 +4318,24 @@ function setupEventListeners() {
     }
   });
   
-  const elUpper = document.getElementById('editor-action-upper');
-  if (elUpper) {
-    elUpper.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      changeTextCase('upper');
-    });
-  }
-
-  const elLower = document.getElementById('editor-action-lower');
-  if (elLower) {
-    elLower.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      changeTextCase('lower');
-    });
-  }
+  document.getElementById('editor-action-upper').addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    changeTextCase('upper');
+  });
+  document.getElementById('editor-action-lower').addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    changeTextCase('lower');
+  });
   
-  const elCopy = document.getElementById('editor-action-copy');
-  if (elCopy) {
-    elCopy.addEventListener('mousedown', async (e) => {
-      e.preventDefault();
-      try {
-        await navigator.clipboard.writeText(DOM.notepadTextarea.innerText);
-        showToast('Đã sao chép toàn bộ văn bản ghi chép!');
-      } catch (err) {
-        showToast('Không thể sao chép văn bản!', 'error');
-      }
-    });
-  }
+  document.getElementById('editor-action-copy').addEventListener('mousedown', async (e) => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(DOM.notepadTextarea.innerText);
+      showToast('Đã sao chép toàn bộ văn bản ghi chép!');
+    } catch (err) {
+      showToast('Không thể sao chép văn bản!', 'error');
+    }
+  });
 
   // Find and Replace panel toggling
   DOM.btnToggleFind.addEventListener('click', () => {
@@ -4853,14 +4798,12 @@ function setupEventListeners() {
   DOM.btnBoardImportNote.addEventListener('click', convertNoteToBoard);
   DOM.btnBoardConvertToNote.addEventListener('click', convertBoardToNote);
   
-  if (DOM.btnBoardAddText) {
-    DOM.btnBoardAddText.addEventListener('click', () => {
-      const container = document.getElementById('sticky-board-canvas-container');
-      const x = container.scrollLeft + container.clientWidth / 2 - 120;
-      const y = container.scrollTop + container.clientHeight / 2 - 90;
-      addStickyNoteAtPosition(x, y, '', 'text-block');
-    });
-  }
+  DOM.btnBoardAddText.addEventListener('click', () => {
+    const container = document.getElementById('sticky-board-canvas-container');
+    const x = container.scrollLeft + container.clientWidth / 2 - 120;
+    const y = container.scrollTop + container.clientHeight / 2 - 90;
+    addStickyNoteAtPosition(x, y, '', 'text-block');
+  });
 
   DOM.btnBoardClose.addEventListener('click', () => {
     saveBoardMode('notepad');
@@ -4921,253 +4864,88 @@ function setupEventListeners() {
     renderQuickInfos();
   });
 
-  // --- CLASSROOM EVENT LISTENERS ---
-  DOM.btnSidebarTabCalendar.addEventListener('click', () => switchMode('notepad'));
-  DOM.btnSidebarTabClasses.addEventListener('click', () => switchMode('classroom'));
-  
-  // Classes
-  DOM.btnSidebarAddClass.addEventListener('click', () => openClassModal());
-  DOM.classCloseBtn.addEventListener('click', () => DOM.classModal.classList.remove('active'));
-  DOM.classModal.addEventListener('click', (e) => {
-    if (e.target === DOM.classModal) DOM.classModal.classList.remove('active');
-  });
-  DOM.btnSaveClass.addEventListener('click', addOrUpdateClass);
-  DOM.btnAddCustomField.addEventListener('click', () => {
-    const newFieldId = 'f_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-    classModalFields.push({
-      id: newFieldId,
-      name: '',
-      type: 'text'
-    });
-    renderClassFieldsBuilder();
+  // --- CLASSROOM EVENT LISTENERS (Only attach if classroom DOM elements exist) ---
+  if (DOM.btnSidebarTabClasses) {
+    if (DOM.btnSidebarTabCalendar) DOM.btnSidebarTabCalendar.addEventListener('click', () => switchMode('notepad'));
+    DOM.btnSidebarTabClasses.addEventListener('click', () => switchMode('classroom'));
     
-    setTimeout(() => {
-      const inputs = DOM.classFieldsListBuilder.querySelectorAll('input[type="text"]');
-      if (inputs.length > 0) {
-        inputs[inputs.length - 1].focus();
-      }
-    }, 50);
-  });
-  DOM.classNameInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') addOrUpdateClass();
-  });
-  
-  // Students
-  DOM.studentCloseBtn.addEventListener('click', () => DOM.studentModal.classList.remove('active'));
-  DOM.studentModal.addEventListener('click', (e) => {
-    if (e.target === DOM.studentModal) DOM.studentModal.classList.remove('active');
-  });
-  DOM.btnSaveStudent.addEventListener('click', addOrUpdateStudent);
-  DOM.classroomStudentSearch.addEventListener('input', () => {
-    renderStudents();
-  });
-  
-  // Violation
-  DOM.violationCloseBtn.addEventListener('click', () => DOM.violationModal.classList.remove('active'));
-  DOM.violationModal.addEventListener('click', (e) => {
-    if (e.target === DOM.violationModal) DOM.violationModal.classList.remove('active');
-  });
-  DOM.btnSaveViolation.addEventListener('click', saveViolation);
-  DOM.violationContentInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') saveViolation();
-  });
+    // Classes
+    if (DOM.btnSidebarAddClass) DOM.btnSidebarAddClass.addEventListener('click', () => openClassModal());
+    if (DOM.classCloseBtn) DOM.classCloseBtn.addEventListener('click', () => DOM.classModal && DOM.classModal.classList.remove('active'));
+    if (DOM.classModal) {
+      DOM.classModal.addEventListener('click', (e) => {
+        if (e.target === DOM.classModal) DOM.classModal.classList.remove('active');
+      });
+    }
+    if (DOM.btnSaveClass) DOM.btnSaveClass.addEventListener('click', addOrUpdateClass);
+    if (DOM.btnAddCustomField) {
+      DOM.btnAddCustomField.addEventListener('click', () => {
+        const newFieldId = 'f_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+        classModalFields.push({
+          id: newFieldId,
+          name: '',
+          type: 'text'
+        });
+        renderClassFieldsBuilder();
+        
+        setTimeout(() => {
+          const inputs = DOM.classFieldsListBuilder && DOM.classFieldsListBuilder.querySelectorAll('input[type="text"]');
+          if (inputs && inputs.length > 0) {
+            inputs[inputs.length - 1].focus();
+          }
+        }, 50);
+      });
+    }
+    if (DOM.classNameInput) {
+      DOM.classNameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addOrUpdateClass();
+      });
+    }
+    
+    // Students
+    if (DOM.studentCloseBtn) DOM.studentCloseBtn.addEventListener('click', () => DOM.studentModal && DOM.studentModal.classList.remove('active'));
+    if (DOM.studentModal) {
+      DOM.studentModal.addEventListener('click', (e) => {
+        if (e.target === DOM.studentModal) DOM.studentModal.classList.remove('active');
+      });
+    }
+    if (DOM.btnSaveStudent) DOM.btnSaveStudent.addEventListener('click', addOrUpdateStudent);
+    if (DOM.classroomStudentSearch) {
+      DOM.classroomStudentSearch.addEventListener('input', () => {
+        renderStudents();
+      });
+    }
+    
+    // Violation
+    if (DOM.violationCloseBtn) DOM.violationCloseBtn.addEventListener('click', () => DOM.violationModal && DOM.violationModal.classList.remove('active'));
+    if (DOM.violationModal) {
+      DOM.violationModal.addEventListener('click', (e) => {
+        if (e.target === DOM.violationModal) DOM.violationModal.classList.remove('active');
+      });
+    }
+    if (DOM.btnSaveViolation) DOM.btnSaveViolation.addEventListener('click', saveViolation);
+    if (DOM.violationContentInput) {
+      DOM.violationContentInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') saveViolation();
+      });
+    }
 
-  // Violation quick tags
-  DOM.tagVangKhongPhep.addEventListener('click', () => DOM.violationContentInput.value = 'Vắng học không phép');
-  DOM.tagVangCoPhep.addEventListener('click', () => DOM.violationContentInput.value = 'Vắng học có phép');
-  DOM.tagDiMuon.addEventListener('click', () => DOM.violationContentInput.value = 'Đi muộn');
-  DOM.tagKhongBaiTap.addEventListener('click', () => DOM.violationContentInput.value = 'Không làm bài tập');
-  DOM.tagKhongChuanBi.addEventListener('click', () => DOM.violationContentInput.value = 'Không chuẩn bị bài');
-  
-  // Violation History
-  DOM.violationHistoryCloseBtn.addEventListener('click', () => DOM.violationHistoryModal.classList.remove('active'));
-  DOM.violationHistoryModal.addEventListener('click', (e) => {
-    if (e.target === DOM.violationHistoryModal) DOM.violationHistoryModal.classList.remove('active');
-  });
+    // Violation quick tags
+    if (DOM.tagVangKhongPhep) DOM.tagVangKhongPhep.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Vắng học không phép'; });
+    if (DOM.tagVangCoPhep) DOM.tagVangCoPhep.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Vắng học có phép'; });
+    if (DOM.tagDiMuon) DOM.tagDiMuon.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Đi muộn'; });
+    if (DOM.tagKhongBaiTap) DOM.tagKhongBaiTap.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Không làm bài tập'; });
+    if (DOM.tagKhongChuanBi) DOM.tagKhongChuanBi.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Không chuẩn bị bài'; });
+    
+    // Violation History
+    if (DOM.violationHistoryCloseBtn) DOM.violationHistoryCloseBtn.addEventListener('click', () => DOM.violationHistoryModal && DOM.violationHistoryModal.classList.remove('active'));
+    if (DOM.violationHistoryModal) {
+      DOM.violationHistoryModal.addEventListener('click', (e) => {
+        if (e.target === DOM.violationHistoryModal) DOM.violationHistoryModal.classList.remove('active');
+      });
+    }
+  }
 }
 
 // Start application
 document.addEventListener('DOMContentLoaded', init);
-
-// ─── SEED HELPER ──────────────────────────────────────────────────────────────
-// Gọi hàm này một lần từ DevTools console sau khi đăng nhập:  seedKS25CNTT7()
-async function seedKS25CNTT7() {
-  const classId = 'class_ks25_cntt7';
-  const className = 'KS25_CNTT7';
-  const fields = [
-    { id: 'email', name: 'Email', type: 'text' },
-    { id: 'mssv',  name: 'MSSV',  type: 'text' }
-  ];
-
-  const students = [
-    { stt: 1,  name: 'Phạm Thanh Đài',          email: 'phamthanhdai12345@gmail.com' },
-    { stt: 2,  name: 'Đỗ Minh Đặng',             email: 'dangdo090507@gmail.com' },
-    { stt: 3,  name: 'Nguyễn Kim Thành Đạt',     email: 'datkim2222@gmail.com' },
-    { stt: 4,  name: 'Hồ Quang Duy',             email: 'quangduybin2007@gmail.com' },
-    { stt: 5,  name: 'Hồ Hữu Hoài Nam',          email: 'hoainamho146@gmail.com' },
-    { stt: 6,  name: 'Trần Hiếu Nghĩa',          email: 'mcl541ngogiatu@gmail.com' },
-    { stt: 7,  name: 'Trần Hoàng Nguyên',        email: 'trannguyenhoang2007@gmail.com' },
-    { stt: 8,  name: 'Phạm Ngọc Quỳnh Như',      email: 'mina03239@gmail.com' },
-    { stt: 9,  name: 'Trịnh Thị Hồng Quyên',     email: 'hongquyen2007.bh@gmail.com' },
-    { stt: 10, name: 'Đỗ Xuân Tân',              email: 'doxuantan1999a0@gmail.com' },
-    { stt: 11, name: 'Ngô Thiên Thạch',          email: 'ngo67775@gmail.com' },
-    { stt: 12, name: 'Nguyễn Vân Trường',        email: 'nguyenvantruong130627@gmail.com' },
-    { stt: 13, name: 'Lã Duy Khang',             email: 'laduykhang776353@gmail.com' },
-    { stt: 14, name: 'Nguyễn Duy Đạt',           email: 'datllkk456@gmail.com' },
-    { stt: 15, name: 'Nguyễn Minh Thức',         email: 'nmthuc2007@gmail.com' },
-    { stt: 16, name: 'Đỗ Minh Tiến',             email: 'cudm2001@gmail.com' },
-    { stt: 17, name: 'Huỳnh Công Danh',          email: 'danhc7620@gmail.com' },
-    { stt: 18, name: 'Nguyễn Quốc Thắng',        email: 'tn0914534@gmail.com' },
-    { stt: 19, name: 'Trần Đức Ngọc',            email: 'tranducngoc171717@gmail.com' },
-    { stt: 20, name: 'Dương Gia Hưng',           email: 'duonghung5637@gmail.com' },
-    { stt: 21, name: 'Nguyễn Văn Hoàn',          email: 'nguyenhoan18042007@gmail.com' },
-    { stt: 22, name: 'Phạm Việt Thành 2',        email: 'pham.vietthanh11062007@gmail.com' },
-    { stt: 23, name: 'Hứa Xuân Thiên',           email: 'huathien23102006@gmail.com' },
-    { stt: 24, name: 'Nguyễn Thiên Bảo',         email: 'ntb8378@gmail.com' },
-    { stt: 25, name: 'Nguyễn Khắc Duy 2',        email: 'duynguyenkhac0373@gmail.com' },
-    { stt: 26, name: 'Lê Thanh Hải',             email: 'lethanhhaidzvcl@gmail.com' },
-    { stt: 27, name: 'Bùi Minh Hiếu',            email: 'hacowibu@gmail.com' },
-    { stt: 28, name: 'Lê Hải Nguyên',            email: 'lehainguyen876@gmail.com' },
-    { stt: 29, name: 'Nguyễn Thành Tài',         email: 'nguyenthanhtai311007@gmail.com' },
-    { stt: 30, name: 'Đặng Đức Tín',             email: 'dtyn13579@gmail.com' },
-    { stt: 31, name: 'Tăng Duy Khánh',           email: 'khanhtang450@gmail.com' },
-    { stt: 32, name: 'Bùi Minh Đức 2',           email: 'mduc04717@gmail.com' },
-    { stt: 33, name: 'Đinh Quang Hào',           email: 'fshi0206@gmail.com' },
-    { stt: 34, name: 'Trần Văn Khiêm',           email: 'tranvankhien0307@gmail.com' },
-    { stt: 35, name: 'Đặng Thành Đạt 2',         email: 'dangthanhdat1508@gmail.com' },
-    { stt: 36, name: 'Nguyễn Thị Thu Hiền 2',    email: 'nguyentth0909@gmail.com' },
-    { stt: 37, name: 'Trần Quang Long 2',        email: 'ruymej@gmail.com' },
-    { stt: 38, name: 'Huỳnh Quốc Huy',           email: 'huynoob2406@gmail.com' },
-    { stt: 39, name: 'Tăng Mạnh Khang',          email: 'ankhangbc.2021@gmail.com' },
-  ];
-
-  console.log('🚀 Bắt đầu seed lớp KS25_CNTT7...');
-
-  // 1. Lưu lớp học vào IndexedDB
-  await db.saveClass(classId, className, fields);
-  console.log('✅ Đã lưu lớp học vào IndexedDB');
-
-  // 2. Sync lên Firebase nếu đã kết nối
-  if (firebaseSync.isConnected()) {
-    await firebaseSync.uploadClass(classId, className, fields);
-    console.log('☁️  Đã sync lớp học lên Firebase');
-  }
-
-  // 3. Thêm từng sinh viên
-  for (const s of students) {
-    const now = Date.now();
-    const studentData = {
-      id: `stud_ks25cntt7_${s.stt}_${Math.random().toString(36).substr(2, 6)}`,
-      classId,
-      name: s.name,
-      email: s.email,
-      mssv: '',
-      violations: [],
-      createdAt: new Date().toISOString()
-    };
-    await db.saveStudent(studentData);
-    if (firebaseSync.isConnected()) {
-      await firebaseSync.uploadStudent(studentData);
-    }
-    console.log(`  ✔ ${s.stt}. ${s.name}`);
-  }
-
-  console.log('🎉 Seed xong! 39 sinh viên đã được thêm vào lớp KS25_CNTT7.');
-  console.log('👉 Tải lại trang hoặc chuyển sang chế độ Classroom để xem.');
-};
-
-// Gọi hàm này để seed lớp KS25_CNTT5:  seedKS25CNTT5()
-async function seedKS25CNTT5() {
-  const classId = 'class_ks25_cntt5';
-  const className = 'KS25_CNTT5';
-  const fields = [
-    { id: 'email', name: 'Email', type: 'text' },
-    { id: 'mssv',  name: 'MSSV',  type: 'text' }
-  ];
-
-  const students = [
-    { stt: 1,  name: 'Đoàn Thị Minh Anh',         email: 'anhdoan20071908@gmail.com' },
-    { stt: 2,  name: 'Đồng Văn Tiến Hưng',        email: 'dongvantienhung456@gmail.com' },
-    { stt: 3,  name: 'Nguyễn Đức Huy 4',          email: 'Huydaobang098@gmail.com' },
-    { stt: 4,  name: 'Nguyễn Trọng Khang',        email: 'trongkhangnguyen153@gmail.com' },
-    { stt: 5,  name: 'Lê Phước Lộc',              email: 'lephuocloc00z12@gmail.com' },
-    { stt: 6,  name: 'Vũ Hoàng Nhiệm',            email: 'Vunhiemok@gmail.com' },
-    { stt: 7,  name: 'Lê Quang Phúc',             email: 'tonysama355@gmail.com' },
-    { stt: 8,  name: 'Hoàng Minh Quân',           email: 'quanhoagn@gmail.com' },
-    { stt: 9,  name: 'Nguyễn Hoàng Quân 3',       email: 'quanlunxds@gmail.com' },
-    { stt: 10, name: 'Phùng Thanh Tùng 2',        email: 'thanhtungphung43@gmail.com' },
-    { stt: 11, name: 'Ngô Quốc Anh 2',            email: 'quocanh.04.007@gmail.com' },
-    { stt: 12, name: 'Nguyễn Phương Vy',          email: 'phuonvy1501@gmail.com' },
-    { stt: 13, name: 'Nguyễn Khánh Hưng',         email: 'nkh22042007@gmail.com' },
-    { stt: 14, name: 'Phạm Quốc Anh',             email: 'phamquocanha5k02@gmail.com' },
-    { stt: 15, name: 'Huỳnh Hồ Nhĩ Đan',          email: 'huynhhonhidan@gmail.com' },
-    { stt: 16, name: 'Nguyễn Minh Tuấn',          email: 'nguyenminhtuan26127@gmail.com' },
-    { stt: 17, name: 'Tạ Ngọc Phúc',              email: 'phucdihoc133@gmail.com' },
-    { stt: 18, name: 'Nguyễn Minh Trung',         email: 'ft.trung0902@gmail.com' },
-    { stt: 19, name: 'Nguyễn Tấn Du',             email: 'du01012004@gmail.com' },
-    { stt: 20, name: 'Trịnh Trần Công Huy',       email: 'konoihuy@gmail.com' },
-    { stt: 21, name: 'Trần Văn Mỹ',               email: 'huynhthihienpy77@gmail.com' },
-    { stt: 22, name: 'Huỳnh Nhơn Nguyên Nghiệp',  email: 'huynhnghiep20072020@gmail.com' },
-    { stt: 23, name: 'Vũ Cao Nguyên',             email: 'nguyencaovu2007@gmail.com' },
-    { stt: 24, name: 'Nguyễn Ngô Quốc Thịnh',     email: 'nguyenngothinh669@gmail.com' },
-    { stt: 25, name: 'Nguyễn Văn Thông',          email: 'nguyenthong12122015@gmail.com' },
-    { stt: 26, name: 'Lê Tấn Toàn',               email: 'lttoan327ldh@gmail.com' },
-    { stt: 27, name: 'Lâm Nhựt Hải Đăng',         email: 'kyuu449977@gmail.com' },
-    { stt: 28, name: 'Nguyễn Phát Đạt',           email: 'phatdatggg@gmail.com' },
-    { stt: 29, name: 'Võ Thanh Điền',             email: 'thanhdien071207@gmail.com' },
-    { stt: 30, name: 'Nguyễn Võ Gia Hân',         email: 'nguyenvogiahan73@gmail.com' },
-    { stt: 31, name: 'Lương Hoàng Huy',           email: 'lhuy28260@gmail.com' },
-    { stt: 32, name: 'Phan Hoàng Sơn',            email: 'sonhoang000888@gmail.com' },
-    { stt: 33, name: 'Nguyễn Hoàng Thành',        email: 'nguyenhoangggh@gmail.com' },
-    { stt: 34, name: 'Phạm Đình Thương',          email: 'dinhthuong979@gmail.com' },
-    { stt: 35, name: 'Hoàng Mai Phương',          email: 'hoangmaiphuongtin@gmail.com' },
-    { stt: 36, name: 'Lê Trung Hiếu 4',           email: 'warmdevofficial@gmail.com' },
-    { stt: 37, name: 'Lê Tuấn Anh 4',             email: 'tuananhbigboi@gmail.com' },
-    { stt: 38, name: 'Hoàng Dương Nam',           email: 'hoangduongnampb.2k6@gmail.com' },
-    { stt: 39, name: 'Nguyễn Đức Huy 2',          email: 'huyrvt21102007@gmail.com' },
-  ];
-
-  console.log('🚀 Bắt đầu seed lớp KS25_CNTT5...');
-
-  // 1. Lưu lớp học vào IndexedDB
-  await db.saveClass(classId, className, fields);
-  console.log('✅ Đã lưu lớp học vào IndexedDB');
-
-  // 2. Sync lên Firebase nếu đã kết nối
-  if (firebaseSync.isConnected()) {
-    await firebaseSync.uploadClass(classId, className, fields);
-    console.log('☁️  Đã sync lớp học lên Firebase');
-  }
-
-  // 3. Thêm từng sinh viên
-  for (const s of students) {
-    const studentData = {
-      id: `stud_ks25cntt5_${s.stt}_${Math.random().toString(36).substr(2, 6)}`,
-      classId,
-      name: s.name,
-      email: s.email,
-      mssv: '',
-      violations: [],
-      createdAt: new Date().toISOString()
-    };
-    await db.saveStudent(studentData);
-    if (firebaseSync.isConnected()) {
-      await firebaseSync.uploadStudent(studentData);
-    }
-    console.log(`  ✔ ${s.stt}. ${s.name}`);
-  }
-
-  console.log('🎉 Seed xong! 39 sinh viên đã được thêm vào lớp KS25_CNTT5.');
-  console.log('👉 Tải lại trang hoặc chuyển sang chế độ Classroom để xem.');
-};
-
-window.seedKS25CNTT7 = seedKS25CNTT7;
-window.seedKS25CNTT5 = seedKS25CNTT5;
-
-// Seed cả hai lớp cùng lúc
-window.seedAllClasses = async function() {
-  console.log('⏳ Bắt đầu seed toàn bộ...');
-  await seedKS25CNTT7();
-  await seedKS25CNTT5();
-  console.log('✨ Đã hoàn thành seed cả 2 lớp!');
-};
