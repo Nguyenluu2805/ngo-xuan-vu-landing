@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DailyLog - Nhật Ký & Ghi Chép Công Việc Hàng Ngày</title>
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="stylesheet" href="style.css">
-  <!-- Lucide Icons (local - tránh tracking prevention của trình duyệt) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Checklist & Workspace — Quản Lý Ghi Chú & Công Việc</title>
+  <meta name="description" content="Ứng dụng Checklist, Ghi chú, Quản lý Lớp học & Công việc thông minh tích hợp Lịch và Board Canvas.">
+  <link rel="icon" type="image/png" href="logo.png" />
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
   <script src="lucide.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- Main App Layout Grid -->
   <div class="app-container">
-    
-    <!-- LEFT SIDEBAR: LOGO & CALENDAR NAVIGATION -->
+
+    <!-- ────────────── LEFT SIDEBAR ────────────── -->
     <aside class="sidebar" id="left-sidebar">
+      <!-- Branding Logo & Theme Switcher -->
       <div class="sidebar-logo">
-        <img src="logo.png" alt="DailyLog Logo" class="logo-img-main" id="sidebar-logo-icon">
-        <span class="logo-text">DailyLog</span>
-        <button class="theme-toggle-btn" id="btn-theme-toggle" title="Đổi giao diện Sáng/Tối"><i data-lucide="moon"></i></button>
+        <img src="logo.png" alt="Logo" class="logo-img-main" id="sidebar-logo-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="logo-icon" style="display: none;">XV</div>
+        <span class="logo-text">Checklist App</span>
+        <button class="theme-toggle-btn" id="btn-theme-toggle" title="Chuyển chế độ Sáng/Tối">
+          <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
+        </button>
         <button class="settings-btn" id="btn-settings" title="Cấu hình đồng bộ Firebase"><i data-lucide="settings"></i></button>
       </div>
 
@@ -28,7 +42,6 @@
           <input type="text" class="input-field" id="global-search-input" placeholder="Tìm ghi chú & lỗi...">
           <span class="global-search-icon" id="sidebar-search-icon" title="Tìm kiếm"><i data-lucide="search"></i></span>
         </div>
-        <!-- Results panel (floating overlay dropdown) -->
         <div class="global-search-results" id="global-search-results"></div>
       </div>
 
@@ -40,7 +53,6 @@
         </div>
         
         <div class="collapsible-content" id="sync-widget-content">
-          <!-- Not Logged In View -->
           <div id="sidebar-auth-panel" style="display: flex; flex-direction: column; gap: 8px;">
             <div class="input-wrapper email-wrapper">
               <input type="email" id="sidebar-sync-email" class="input-field" placeholder="Email đăng nhập">
@@ -48,14 +60,12 @@
             <div class="input-wrapper password-wrapper">
               <input type="password" id="sidebar-sync-password" class="input-field" placeholder="Mật khẩu">
             </div>
-            
             <div style="display: flex; gap: 6px; margin-top: 4px;">
               <button class="btn btn-primary" id="btn-sidebar-login" style="height: 32px; font-size: 0.78rem; flex: 1;">Đăng nhập</button>
               <button class="btn" id="btn-sidebar-register" style="height: 32px; font-size: 0.78rem; flex: 1;">Đăng ký</button>
             </div>
           </div>
 
-          <!-- Logged In View -->
           <div id="sidebar-actions-panel" style="display: none; align-items: center; justify-content: space-between; gap: 8px; width: 100%;">
             <span id="sidebar-sync-user-email" style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); text-overflow: ellipsis; overflow: hidden; white-space: nowrap; flex: 1; max-width: 140px;" title="user@email.com">user@email.com</span>
             <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
@@ -70,366 +80,446 @@
         </div>
       </div>
 
-      <!-- Calendar Widget -->
+      <!-- Navigation Tabs (Calendar / Classroom) -->
+      <div style="display: flex; gap: 8px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: var(--border-radius-md); border: 1px solid var(--border-light); margin-top: 10px;">
+        <button class="btn active" id="btn-sidebar-tab-calendar" style="flex: 1; height: 34px; font-size: 0.78rem; font-weight: 600; border: none; background: rgba(255, 255, 255, 0.05); color: var(--text-main);">
+          <i data-lucide="calendar" style="width: 14px; height: 14px;"></i> Lịch Ghi Chú
+        </button>
+        <button class="btn" id="btn-sidebar-tab-classes" style="flex: 1; height: 34px; font-size: 0.78rem; font-weight: 600; border: none; background: transparent; color: var(--text-muted);">
+          <i data-lucide="users" style="width: 14px; height: 14px;"></i> Lớp Học
+        </button>
+      </div>
+
+      <!-- Calendar Widget Panel -->
       <div class="calendar-widget" id="sidebar-calendar-widget">
-        <div class="calendar-header" id="calendar-widget-header" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
-          <span class="calendar-title" style="display: flex; align-items: center; gap: 6px;"><i data-lucide="calendar" class="lucide-sidebar-icon"></i><span class="collapsible-text" id="calendar-month-year">Tháng 5 2026</span></span>
-          <div class="btn-group collapsible-text">
-            <button class="calendar-nav-btn" id="prev-month" title="Tháng trước"><i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i></button>
-            <button class="calendar-nav-btn" id="next-month" title="Tháng sau"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+        <div class="calendar-header" id="calendar-widget-header">
+          <span class="calendar-title" id="calendar-month-year">Tháng 8, 2026</span>
+          <div class="btn-group">
+            <button class="calendar-nav-btn" id="prev-month" title="Tháng trước">‹</button>
+            <button class="calendar-nav-btn" id="next-month" title="Tháng sau">›</button>
           </div>
         </div>
-        <div class="collapsible-content" id="calendar-widget-content">
-          <div class="calendar-days-grid">
-            <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
-          </div>
-          <div class="calendar-grid" id="calendar-grid-cells">
-            <!-- Calendar cells injected by JS -->
-          </div>
+        <div class="calendar-days-grid">
+          <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+        </div>
+        <div class="calendar-grid" id="calendar-grid-cells">
+          <!-- Calendar cells rendered via app.js -->
         </div>
       </div>
 
-      <!-- Extra settings/Actions in sidebar -->
-      <div class="current-date-info" id="sidebar-date-info">
-        <div class="current-day-label" id="sidebar-day-label">Hôm nay</div>
-        <div class="current-date-label" id="sidebar-date-label">25/05/2026</div>
+      <!-- Classes List Widget Panel (Hidden by default) -->
+      <div class="calendar-widget" id="sidebar-classes-widget" style="display: none;">
+        <div class="calendar-header">
+          <span class="calendar-title">Danh sách lớp học</span>
+          <button class="btn btn-primary" id="btn-sidebar-add-class" style="width: auto; height: 28px; padding: 0 10px; font-size: 0.75rem;">
+            <i data-lucide="plus" style="width: 13px; height: 13px;"></i> Tạo Lớp
+          </button>
+        </div>
+        <div id="classes-list-container" style="display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto;">
+          <!-- Class items rendered via app.js -->
+        </div>
       </div>
 
-      <div class="backup-actions-container" id="sidebar-backup-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
-        <button class="btn" id="btn-export-backup" title="Sao lưu Backup (JSON)">
-          <span class="icon"><i data-lucide="download"></i></span> <span class="collapsible-text">Sao lưu Backup (JSON)</span>
-        </button>
-        <button class="btn" id="btn-import-backup" title="Khôi phục Backup">
-          <span class="icon"><i data-lucide="upload"></i></span> <span class="collapsible-text">Khôi phục Backup</span>
-        </button>
-        <input type="file" id="import-file-input" accept=".json" style="display: none;">
-      </div>
-
-      <!-- Floating border collapse button -->
-      <button class="collapse-btn" id="btn-toggle-sidebar" title="Thu nhỏ Sidebar">
-        <i data-lucide="chevron-left"></i>
+      <!-- Quick Info Vault Launcher -->
+      <button class="btn" id="btn-open-quick-info" style="border-color: var(--border-medium); margin-top: 10px;">
+        <i data-lucide="key" style="width: 16px; height: 16px; color: var(--warning);"></i> Thông Tin Nhanh (Vault)
       </button>
+
+      <!-- Date Display Indicator -->
+      <div class="current-date-info" id="sidebar-date-info">
+        <div class="current-day-label" id="sidebar-day-label">Thứ Ba</div>
+        <div class="current-date-label" id="sidebar-date-label">11 Tháng 8, 2026</div>
+      </div>
+
+      <!-- Data Backup & Restore Controls -->
+      <div class="backup-actions-container" id="sidebar-backup-actions" style="margin-top: 15px; display: flex; gap: 8px;">
+        <button class="btn" id="btn-export-backup" title="Xuất Sao Lưu Dữ Liệu (JSON)" style="font-size: 0.75rem; flex: 1;">
+          <i data-lucide="download-cloud" style="width: 14px; height: 14px;"></i> Backup
+        </button>
+        <button class="btn" id="btn-import-backup" title="Nhập Dữ Liệu Từ File Backup" style="font-size: 0.75rem; flex: 1;">
+          <i data-lucide="upload-cloud" style="width: 14px; height: 14px;"></i> Restore
+        </button>
+        <input type="file" id="import-file-input" accept=".json" style="display: none;" />
+      </div>
     </aside>
 
-    <!-- CENTER PANEL: MAIN DAILY NOTEPAD -->
+    <!-- ────────────── CENTER WORKSPACE AREA ────────────── -->
     <main class="main-content">
-      <div class="notepad-card" id="notepad-card-container">
-        
-        <!-- Drag & Drop overlay cue -->
-        <div class="drag-overlay" id="drag-overlay">
-          <div class="drag-icon"><i data-lucide="file-up" style="width: 64px; height: 64px; stroke-width: 1.5; color: var(--primary);"></i></div>
-          <h2>Thả file hoặc hình ảnh để đính kèm</h2>
-          <p>Hỗ trợ tài liệu, tệp tin và ảnh chụp</p>
+
+      <!-- Notepad Card Workspace -->
+      <div class="notepad-card" id="notepad-card-container" style="display: flex; flex-direction: column; height: 100%;">
+        <!-- Header -->
+        <div class="notepad-header" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <h2 class="notepad-title" id="notepad-active-date" style="font-size: 1.1rem; font-weight: 700;">Ghi chú ngày 11/08/2026</h2>
+            <div class="save-status" style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-muted);">
+              <span class="status-dot saved" id="save-status-dot"></span>
+              <span id="save-status-text">Đã lưu</span>
+            </div>
+          </div>
+
+          <!-- View Mode Toggle (Notepad / Board) -->
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="display: flex; background: rgba(255,255,255,0.04); padding: 3px; border-radius: var(--border-radius-md); border: 1px solid var(--border-light);">
+              <button class="btn active" id="btn-mode-notepad" style="width: auto; height: 28px; padding: 0 12px; font-size: 0.75rem; border: none;">
+                <i data-lucide="file-text" style="width: 13px; height: 13px;"></i> Notepad
+              </button>
+              <button class="btn" id="btn-mode-board" style="width: auto; height: 28px; padding: 0 12px; font-size: 0.75rem; border: none; background: transparent; color: var(--text-muted);">
+                <i data-lucide="layout-dashboard" style="width: 13px; height: 13px;"></i> Board Canvas
+              </button>
+            </div>
+          </div>
         </div>
 
-        <header class="notepad-header">
-          <button class="mobile-toggle-btn" id="btn-toggle-left-sidebar-mobile" title="Menu"><i data-lucide="menu"></i></button>
-          <div class="notepad-title-group">
-            <span class="notepad-title" id="notepad-active-date">Thứ Hai, 25 Tháng 5, 2026</span>
-            <div class="board-mode-toggle" id="board-mode-toggle">
-              <button class="toggle-btn active" id="btn-mode-notepad" title="Chế độ Ghi chép"><i data-lucide="file-text"></i> <span>Ghi chép</span></button>
-              <button class="toggle-btn" id="btn-mode-board" title="Chế độ Bảng dính"><i data-lucide="sticky-note"></i> <span>Bảng dính</span></button>
-            </div>
+        <!-- Editor Toolbar -->
+        <div class="editor-toolbar" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.01);">
+          <button class="toolbar-btn" id="format-bold" title="In đậm (Ctrl+B)"><i data-lucide="bold"></i></button>
+          <button class="toolbar-btn" id="format-italic" title="In nghiêng (Ctrl+I)"><i data-lucide="italic"></i></button>
+          <button class="toolbar-btn" id="format-underline" title="Gạch chân (Ctrl+U)"><i data-lucide="underline"></i></button>
+          <button class="toolbar-btn" id="format-strike" title="Gạch đè (~~)"><i data-lucide="strikethrough"></i></button>
+          <span class="toolbar-divider"></span>
+          <button class="toolbar-btn" id="format-h1" title="Tiêu đề 1 (#)"><i data-lucide="heading-1"></i></button>
+          <button class="toolbar-btn" id="format-h2" title="Tiêu đề 2 (##)"><i data-lucide="heading-2"></i></button>
+          <span class="toolbar-divider"></span>
+          <button class="toolbar-btn" id="format-ul" title="Danh sách chấm tròn (- )"><i data-lucide="list"></i></button>
+          <button class="toolbar-btn" id="format-ol" title="Danh sách số (1. )"><i data-lucide="list-ordered"></i></button>
+          <button class="toolbar-btn" id="format-code" title="Khối mã nguồn (```)"><i data-lucide="code"></i></button>
+          <span class="toolbar-divider"></span>
+          <div class="toolbar-select-wrapper" title="Cỡ chữ">
+            <select id="font-size-select" class="toolbar-select">
+              <option value="12px">12px</option>
+              <option value="14px">14px</option>
+              <option value="16px" selected>16px</option>
+              <option value="18px">18px</option>
+              <option value="20px">20px</option>
+              <option value="24px">24px</option>
+              <option value="28px">28px</option>
+            </select>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div class="save-status">
-              <div class="status-dot saved" id="save-status-dot"></div>
-              <span class="btn-label" id="save-status-text">Đã lưu</span>
-            </div>
-            <button class="mobile-toggle-btn" id="btn-toggle-right-sidebar-mobile" title="Xem tiện ích"><i data-lucide="panel-right"></i></button>
-          </div>
-        </header>
+          <span class="toolbar-divider"></span>
+          <button class="btn" id="btn-toggle-find" title="Tìm & Thay thế (Ctrl+F)" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
+            <i data-lucide="search" style="width: 14px; height: 14px;"></i> Tìm kiếm
+          </button>
+          <button class="btn" id="btn-upload-file" title="Tải đính kèm file" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
+            <i data-lucide="paperclip" style="width: 14px; height: 14px;"></i> Đính kèm
+          </button>
+          <input type="file" id="file-input" multiple style="display: none;" />
 
-        <div class="notepad-body">
-          <div class="editor-toolbar">
-            <button class="toolbar-btn" id="format-bold" title="In đậm (Ctrl+B)"><i data-lucide="bold"></i></button>
-            <button class="toolbar-btn" id="format-italic" title="In nghiêng (Ctrl+I)"><i data-lucide="italic"></i></button>
-            <button class="toolbar-btn" id="format-underline" title="Gạch chân (Ctrl+U)"><i data-lucide="underline"></i></button>
-            <button class="toolbar-btn" id="format-strike" title="Gạch đè (~~)"><i data-lucide="strikethrough"></i></button>
-            <span class="toolbar-divider"></span>
-            <button class="toolbar-btn" id="format-h1" title="Tiêu đề 1 (#)"><i data-lucide="heading-1"></i></button>
-            <button class="toolbar-btn" id="format-h2" title="Tiêu đề 2 (##)"><i data-lucide="heading-2"></i></button>
-            <span class="toolbar-divider"></span>
-            <button class="toolbar-btn" id="format-ul" title="Danh sách chấm tròn (- )"><i data-lucide="list"></i></button>
-            <button class="toolbar-btn" id="format-ol" title="Danh sách số (1. )"><i data-lucide="list-ordered"></i></button>
-            <button class="toolbar-btn" id="format-code" title="Khối mã nguồn (```)"><i data-lucide="code"></i></button>
-            <span class="toolbar-divider"></span>
-            <div class="toolbar-select-wrapper" title="Cỡ chữ">
-              <i data-lucide="type" style="width: 13px; height: 13px; color: var(--text-muted);"></i>
-              <select id="font-size-select" class="toolbar-select">
-                <option value="12px">12px</option>
-                <option value="14px">14px</option>
-                <option value="16px" selected>16px</option>
-                <option value="18px">18px</option>
-                <option value="20px">20px</option>
-                <option value="24px">24px</option>
-                <option value="28px">28px</option>
-              </select>
-            </div>
-            <span class="toolbar-divider"></span>
-            <button class="toolbar-btn" id="editor-action-upper" title="Chuyển thành chữ IN HOA" style="font-weight: 700; font-size: 0.72rem; letter-spacing: -0.5px;">AA</button>
-            <button class="toolbar-btn" id="editor-action-lower" title="Chuyển thành chữ thường" style="font-weight: 500; font-size: 0.72rem; letter-spacing: -0.5px;">aa</button>
-            <span class="toolbar-divider"></span>
-            <button class="toolbar-btn" id="editor-action-copy" title="Sao chép toàn bộ văn bản"><i data-lucide="copy"></i></button>
-            <button class="toolbar-btn" id="btn-toggle-find" title="Tìm kiếm & Thay thế (Ctrl+F)"><i data-lucide="search"></i></button>
-          </div>
+          <button class="btn" id="btn-export-md" title="Xuất file Markdown (.md)" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem; margin-left: auto;">
+            <i data-lucide="file-output" style="width: 14px; height: 14px;"></i> Xuất Markdown
+          </button>
+          <button class="btn btn-danger-outline" id="btn-clear-note" title="Xóa nội dung trang này" style="width: auto; height: 32px; padding: 0 10px; font-size: 0.78rem;">
+            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Xóa Trắng
+          </button>
+        </div>
 
-          <!-- Find and Replace Bar -->
-          <div class="find-replace-bar" id="find-replace-bar">
-            <input type="text" class="input-field search-input" id="search-input" placeholder="Tìm kiếm...">
-            <input type="text" class="input-field replace-input" id="replace-input" placeholder="Thay thế bằng...">
-            <div class="btn-group">
-              <button class="btn" id="btn-find-next" style="height: 32px; font-size: 0.8rem; padding: 0 12px; width: auto;">Tiếp theo</button>
-              <button class="btn" id="btn-replace" style="height: 32px; font-size: 0.8rem; padding: 0 12px; width: auto;">Thay thế</button>
-              <button class="btn" id="btn-replace-all" style="height: 32px; font-size: 0.8rem; padding: 0 12px; width: auto;">Tất cả</button>
-            </div>
-            <button class="btn-delete" id="btn-close-find" style="font-size: 1.2rem; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 16px; height: 16px;"></i|></button>
-          </div>
+        <!-- Find & Replace Bar (Collapsible) -->
+        <div class="find-replace-bar" id="find-replace-bar" style="display: none; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-light);">
+          <input type="text" id="search-input" class="input-field" placeholder="Từ khóa tìm..." style="width: 150px; height: 30px; font-size: 0.78rem; padding: 0 8px;" />
+          <input type="text" id="replace-input" class="input-field" placeholder="Thay thế bằng..." style="width: 150px; height: 30px; font-size: 0.78rem; padding: 0 8px;" />
+          <button class="btn" id="btn-find-next" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Tiếp</button>
+          <button class="btn" id="btn-replace" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Thay thế</button>
+          <button class="btn" id="btn-replace-all" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem;">Tất cả</button>
+          <button class="btn" id="btn-close-find" style="width: auto; height: 30px; padding: 0 8px; font-size: 0.75rem; margin-left: auto;">✕</button>
+        </div>
 
-          <div class="notepad-textarea" id="notepad-textarea" contenteditable="true" placeholder="Ghi chép công việc hôm nay ở đây...
-Mẹo: 
-- Bạn có thể Chụp ảnh màn hình rồi Ctrl+V (Dán) trực tiếp vào đây để chèn và lưu hình ảnh ngay trong văn bản.
-- Kéo thả file bất kỳ vào đây để đính kèm.
-- Định dạng nhanh bằng thanh công cụ hoặc phím tắt Ctrl+B, Ctrl+I, Ctrl+U!"></div>
-
-          <!-- Sticky Board Canvas Wrapper -->
+        <!-- Editor Content Area -->
+        <div style="flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden;">
+          <div id="notepad-textarea" contenteditable="true" style="flex: 1; padding: 20px; outline: none; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; color: var(--text-main);" placeholder="Nhập nội dung ghi chú công việc ở đây..."></div>
+          
+          <!-- Board Canvas -->
           <div class="sticky-board-wrapper" id="sticky-board-wrapper" style="display: none;">
-            <!-- Board toolbar with controls -->
             <div class="board-toolbar">
               <div class="board-toolbar-group">
-                <button class="btn btn-danger-outline" id="btn-board-close" title="Quay lại Ghi chép (Tắt bảng)">
-                  <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
-                  <span>Quay lại</span>
-                </button>
-                <span class="toolbar-divider"></span>
-                <!-- Board tools selector -->
+                <button class="btn btn-danger-outline" id="btn-board-close"><i data-lucide="arrow-left"></i> Quay lại</button>
                 <div class="board-tools-group" id="board-tools-group">
-                  <button class="tool-select-btn active" id="tool-btn-pan" title="Công cụ Di chuyển bảng"><i data-lucide="hand"></i></button>
-                  <button class="tool-select-btn" id="tool-btn-select" title="Công cụ Chọn vùng xóa"><i data-lucide="scan"></i></button>
+                  <button class="tool-select-btn active" id="tool-btn-pan"><i data-lucide="hand"></i></button>
+                  <button class="tool-select-btn" id="tool-btn-select"><i data-lucide="scan"></i></button>
                 </div>
-                <span class="toolbar-divider"></span>
-                <button class="btn btn-primary" id="btn-board-add-note" title="Thêm ghi chú mới (Double-click lên bảng)">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                  <span>Thêm ghi chú</span>
-                </button>
-                <button class="btn" id="btn-board-add-file" title="Đính tập tin/hình ảnh lên bảng">
-                  <i data-lucide="paperclip" style="width: 14px; height: 14px;"></i>
-                  <span>Đính lên bảng</span>
-                </button>
-                <button class="btn" id="btn-board-add-text" title="Thêm khối văn bản trực tiếp (Text Block)">
-                  <i data-lucide="type" style="width: 14px; height: 14px;"></i>
-                  <span>Thêm chữ</span>
-                </button>
+                <button class="btn btn-primary" id="btn-board-add-note">+ Thêm ghi chú</button>
+                <button class="btn" id="btn-board-add-file">Đính lên bảng</button>
                 <input type="file" id="board-file-input" multiple style="display: none;">
               </div>
-              
               <div class="board-toolbar-group">
-                <button class="btn" id="btn-board-import-note" title="Chuyển đổi văn bản ghi chép thành các ghi chú dính trên bảng">
-                  <i data-lucide="import" style="width: 14px; height: 14px;"></i>
-                  <span>Lấy từ Ghi chép</span>
-                </button>
-                <button class="btn" id="btn-board-convert-to-note" title="Gộp và chuyển đổi toàn bộ ghi chú dính thành văn bản ghi chép">
-                  <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-                  <span>Gộp vào Ghi chép</span>
-                </button>
-                <button class="btn btn-danger-outline" id="btn-board-clear" title="Xóa toàn bộ ghi chú dính trên bảng">
-                  <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
-                  <span>Xóa bảng</span>
-                </button>
+                <button class="btn" id="btn-board-import-note">Lấy từ Ghi chép</button>
+                <button class="btn" id="btn-board-convert-to-note">Gộp vào Ghi chép</button>
+                <button class="btn btn-danger-outline" id="btn-board-clear">Xóa bảng</button>
               </div>
             </div>
-            
-            <!-- Board workspace container -->
             <div class="sticky-board-canvas-container" id="sticky-board-canvas-container">
-              <!-- Hint/Empty State inside board -->
               <div class="board-empty-state" id="board-empty-state">
-                <div class="empty-state-icon" style="margin-bottom: 12px; opacity: 0.35;"><i data-lucide="sticky-note" style="width: 48px; height: 48px;"></i></div>
-                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Bảng dính đang trống</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; max-width: 400px; margin: 0 auto;">Bấm đúp (Double-click) ở bất kỳ đâu hoặc nhấn nút "Thêm ghi chú" để tạo ghi chú mới.<br>Bạn cũng có thể kéo thả file/ảnh hoặc dán trực tiếp (Ctrl+V) vào đây!</p>
+                <p>Bảng dính đang trống. Bấm đúp hoặc nhấn "+ Thêm ghi chú".</p>
               </div>
-              <div class="sticky-board-canvas" id="sticky-board-canvas">
-                <!-- Sticky notes elements will be injected here via JS -->
-              </div>
+              <div class="sticky-board-canvas" id="sticky-board-canvas"></div>
             </div>
           </div>
 
+          <div class="drag-overlay" id="drag-overlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 21, 36, 0.9); border: 2px dashed var(--primary); justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 600; color: var(--primary); z-index: 10;">
+            Kéo thả tập tin vào đây để tải đính kèm
+          </div>
+        </div>
+      </div>
 
+      <!-- Classroom Management Workspace (Hidden by default) -->
+      <div class="notepad-card" id="classroom-card-container" style="display: none; flex-direction: column; height: 100%;">
+        <div class="notepad-header" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
+          <h2 id="classroom-active-title" style="font-size: 1.1rem; font-weight: 700;">Quản lý lớp học</h2>
+          <div id="classroom-header-actions" style="display: flex; gap: 8px;"></div>
         </div>
 
-        <footer class="toolbar">
-          <div class="btn-group">
-            <button class="btn btn-primary" id="btn-upload-file" title="Đính kèm File">
-              <i data-lucide="paperclip" style="width: 15px; height: 15px;"></i>
-              <span class="btn-label">Đính kèm File</span>
-            </button>
-            <input type="file" id="file-input" multiple style="display: none;">
-          </div>
+        <div id="classroom-search-container" style="display: none; padding: 10px 20px; border-bottom: 1px solid var(--border-light);">
+          <input type="text" id="classroom-student-search" class="input-field" placeholder="Tìm kiếm sinh viên theo tên..." style="width: 100%; height: 36px; padding: 0 12px; font-size: 0.85rem;" />
+        </div>
 
-          <div class="btn-group">
-            <button class="btn" id="btn-export-md" title="Xuất Markdown">
-              <i data-lucide="file-text" style="width: 15px; height: 15px;"></i>
-              <span class="btn-label">Xuất Markdown</span>
-            </button>
-            <button class="btn btn-danger-outline" id="btn-clear-note" title="Xóa ghi chép">
-              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-              <span class="btn-label">Xóa ghi chép</span>
-            </button>
-          </div>
-        </footer>
+        <div id="classroom-empty-state" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); gap: 12px;">
+          <i data-lucide="book-open" style="width: 48px; height: 48px; opacity: 0.4;"></i>
+          <p>Vui lòng chọn một lớp học ở danh sách bên trái hoặc bấm "Tạo Lớp" mới.</p>
+        </div>
+
+        <div id="classroom-active-view" style="display: none; flex: 1; padding: 20px; overflow-y: auto;">
+          <div id="student-grid-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;"></div>
+        </div>
       </div>
+
     </main>
 
-    <!-- RIGHT BAR: DAILY ISSUES & ATTACHMENTS LIST -->
+    <!-- ────────────── RIGHT SIDEBAR ────────────── -->
     <aside class="sidebar right-bar">
-      
-      <!-- Quick Info Button -->
-      <button class="btn btn-primary" id="btn-open-quick-info" title="Xem thông tin hay dùng" style="margin-bottom: 5px; flex-shrink: 0;">
-        <i data-lucide="clipboard-list" style="width: 15px; height: 15px;"></i>
-        <span class="btn-label">Thông tin hay dùng</span>
-      </button>
 
-      <hr style="border: 0; border-top: 1px solid var(--border-light); margin: 5px 0 15px 0;">
-      
-      <!-- Issues Section -->
-      <section style="display: flex; flex-direction: column;">
-        <h2 class="section-title">
-          <span>Công việc & Vấn đề</span>
-          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-dark);" id="issue-count">0 mục</span>
-        </h2>
-        <div class="issue-input-wrapper">
-          <div class="issue-input-container">
-            <input type="text" class="input-field" id="issue-input" placeholder="Nhiệm vụ / Lỗi cần xử lý...">
-            <button class="btn-add" id="btn-add-issue" title="Thêm công việc" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
+      <!-- Notepad Side Features (Issues & Attachments) -->
+      <div id="notepad-right-bar-content" style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
+
+        <!-- Unresolved Issues Widget -->
+        <div class="calendar-widget">
+          <div class="calendar-header">
+            <span class="calendar-title" style="display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="alert-circle" style="width: 15px; height: 15px; color: var(--danger);"></i>
+              Việc Cần Xử Lý (<span id="issue-count">0</span>)
+            </span>
           </div>
-          <div class="issue-deadline-container">
-            <span class="issue-deadline-label"><i data-lucide="clock" style="width: 13px; height: 13px;"></i> Đặt hạn chót (tùy chọn)</span>
-            <input type="time" class="deadline-picker" id="issue-deadline" title="Hạn chót">
-          </div>
-        </div>
-        <ul class="issues-list" id="issues-list-container">
-          <!-- Issue items injected by JS -->
-        </ul>
-      </section>
 
-      <hr style="border: 0; border-top: 1px solid var(--border-light); margin: 10px 0 20px 0;">
-
-      <!-- Attachments Section -->
-      <section class="attachments-container">
-        <h2 class="section-title">
-          <span>File & Ảnh đính kèm</span>
-        </h2>
-        <div class="attachments-list" id="attachments-list-container">
-          <!-- Attachment cards injected by JS -->
-        </div>
-      </section>
-    </aside>
-
-  </div>
-
-  <!-- LIGHTBOX PREVIEW MODAL -->
-  <div class="modal" id="preview-modal">
-    <button class="modal-close" id="modal-close-btn" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
-    <div class="modal-content">
-      <div class="modal-body" id="modal-preview-body">
-        <img src="" alt="Preview" class="modal-img" id="modal-preview-img">
-      </div>
-      <div class="modal-footer">
-        <span class="modal-title" id="modal-preview-title">image.png</span>
-        <button class="btn" id="modal-download-btn" style="display: flex; align-items: center; gap: 6px;"><i data-lucide="download" style="width: 14px; height: 14px;"></i> Tải về</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CUSTOM CONFIRMATION MODAL -->
-  <div class="modal" id="confirm-modal">
-    <div class="modal-content" style="max-width: 400px; width: 90%;">
-      <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: center; align-items: center;">
-        <div id="confirm-modal-icon-container" style="width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(99, 102, 241, 0.1); color: var(--primary); margin-bottom: 4px;">
-          <i data-lucide="help-circle" style="width: 28px; height: 28px;"></i>
-        </div>
-        <h3 id="confirm-modal-title" style="color: var(--text-main); font-size: 1.15rem; font-weight: 700; margin: 0;">Xác nhận</h3>
-        <p id="confirm-modal-message" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0; text-align: center;">Bạn có chắc chắn muốn thực hiện hành động này?</p>
-        <div style="display: flex; gap: 10px; width: 100%; margin-top: 8px;">
-          <button class="btn" id="btn-confirm-cancel" style="height: 38px; font-size: 0.82rem; flex: 1;">Hủy</button>
-          <button class="btn btn-primary" id="btn-confirm-ok" style="height: 38px; font-size: 0.82rem; flex: 1;">Đồng ý</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETTINGS MODAL -->
-  <div class="modal" id="settings-modal">
-    <button class="modal-close" id="settings-close-btn" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
-    <div class="modal-content" style="max-width: 500px; width: 90%;">
-      <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
-        <h2 style="margin-bottom: 4px; color: var(--text-main); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
-          <i data-lucide="settings" style="width: 20px; height: 20px; color: var(--primary);"></i> Cấu hình Firebase SDK Config
-        </h2>
-        
-        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">Cấu hình mặc định của dự án đã được tích hợp sẵn. Nếu bạn muốn sử dụng dự án Firebase cá nhân của riêng mình, hãy nhập mã cấu hình JSON của bạn tại đây:</p>
-
-        <!-- Firebase Config Fields -->
-        <div style="display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border-light); padding: 12px; border-radius: var(--border-radius-md); background: rgba(255, 255, 255, 0.01);">
-          <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Firebase SDK Config JSON</span>
-          <textarea id="firebase-config-input" class="input-field" placeholder='Nhập Firebase Config JSON ở đây... Ví dụ:
-{
-  "apiKey": "...",
-  "authDomain": "...",
-  "projectId": "...",
-  ...
-}' style="height: 140px; font-family: var(--font-mono); font-size: 0.72rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); padding: 8px; width: 100%; resize: none; background: rgba(0,0,0,0.1); color: var(--text-main); outline: none;"></textarea>
-        </div>
-
-        <button class="btn btn-primary" id="btn-save-settings" style="height: 38px; font-size: 0.85rem; width: 100%; margin-top: 4px;">Lưu Cấu hình & Kết nối</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- QUICK INFO MODAL -->
-  <div class="modal" id="quick-info-modal">
-    <button class="modal-close" id="quick-info-close-btn" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
-    <div class="modal-content" style="max-width: 500px; width: 90%;">
-      <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
-        <h2 style="margin-bottom: 4px; color: var(--text-main); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
-          <i data-lucide="clipboard-list" style="width: 20px; height: 20px; color: var(--primary);"></i> Thông tin hay dùng
-          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-dark); margin-left: auto;" id="quick-info-count">0 mục</span>
-        </h2>
-        
-        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 4px;">Lưu trữ tài khoản ngân hàng, thông tin cá nhân hoặc các mẫu nội dung để sao chép nhanh khi cần.</p>
-
-        <!-- Form inside modal -->
-        <div class="quick-info-form" style="display: flex; flex-direction: column; gap: 8px;">
-          <div class="issue-input-container" style="margin-bottom: 0;">
-            <input type="text" class="input-field" id="quick-info-title-input" placeholder="Tiêu đề (VD: ATM VCB, Email)..." style="padding: 8px 12px; font-size: 0.82rem;">
-          </div>
-          <div class="issue-input-container" style="margin-bottom: 0; display: flex; align-items: center;">
-            <input type="text" class="input-field" id="quick-info-value-input" placeholder="Giá trị cần lưu/sao chép..." style="padding: 8px 12px; font-size: 0.82rem;">
-            <div style="display: flex; gap: 4px; padding-right: 4px;" id="quick-info-btn-group">
-              <button class="btn-add" id="btn-add-quick-info" title="Thêm thông tin" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; border-radius: 6px;"><i data-lucide="plus" style="width: 14px; height: 14px;"></i></button>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+            <input type="text" id="issue-input" class="input-field" placeholder="Tên công việc tồn đọng..." style="height: 34px; padding: 0 10px; font-size: 0.8rem;" />
+            <div style="display: flex; gap: 6px;">
+              <input type="time" id="issue-deadline" class="input-field" style="flex: 1; height: 32px; padding: 0 8px; font-size: 0.75rem;" />
+              <button class="btn btn-primary" id="btn-add-issue" style="width: auto; height: 32px; padding: 0 12px; font-size: 0.78rem;">Thêm</button>
             </div>
           </div>
+
+          <div id="issues-list-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
+            <!-- Issue items rendered via app.js -->
+          </div>
         </div>
 
-        <!-- Filter Input inside modal -->
-        <div class="issue-input-container" style="margin-bottom: 0; padding: 2px 4px; display: none;" id="quick-info-search-wrapper">
-          <input type="text" class="input-field" id="quick-info-search-input" placeholder="Tìm kiếm nhanh..." style="padding: 6px 10px; font-size: 0.8rem;">
+        <!-- File Attachments Widget -->
+        <div class="calendar-widget" style="flex: 1; display: flex; flex-direction: column;">
+          <div class="calendar-header">
+            <span class="calendar-title" style="display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="paperclip" style="width: 15px; height: 15px; color: var(--primary);"></i>
+              Tập Tin Đính Kèm
+            </span>
+          </div>
+
+          <div id="attachments-list-container" style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
+            <!-- Attachment items rendered via app.js -->
+          </div>
         </div>
 
-        <!-- Scrollable List inside modal -->
-        <ul class="quick-info-list" id="quick-info-list-container" style="list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
-          <!-- Quick info items injected by JS -->
-        </ul>
+      </div>
+
+      <!-- Classroom Student Detail Side Content -->
+      <div id="classroom-right-bar-content" style="display: none; flex-direction: column; gap: 16px; height: 100%;">
+        <div id="classroom-student-detail-empty" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; font-size: 0.85rem;">
+          <i data-lucide="user-check" style="width: 40px; height: 40px; opacity: 0.4; margin-bottom: 8px;"></i>
+          Chọn một sinh viên để xem chi tiết thông tin và lịch sử vi phạm.
+        </div>
+
+        <div id="classroom-student-detail-view" style="display: none; flex-direction: column; gap: 14px; height: 100%; overflow-y: auto;">
+          <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);">
+            <div id="detail-student-avatar" class="student-avatar" style="width: 44px; height: 44px; font-size: 1.1rem;">SV</div>
+            <div>
+              <h3 id="detail-student-name" style="font-size: 1rem; font-weight: 700;">Nguyễn Văn A</h3>
+              <span id="detail-student-badge"></span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 6px;">
+            <button class="btn" id="detail-btn-edit-student" style="flex: 1; height: 32px; font-size: 0.75rem;">Sửa</button>
+            <button class="btn btn-danger-outline" id="detail-btn-delete-student" style="flex: 1; height: 32px; font-size: 0.75rem;">Xóa</button>
+          </div>
+
+          <div id="detail-student-fields-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem;"></div>
+
+          <div style="border-top: 1px solid var(--border-light); padding-top: 12px; margin-top: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.85rem; font-weight: 700;">Ghi Lỗi & Vi Phạm</span>
+              <button class="btn btn-violation-chip" id="detail-btn-add-violation" style="width: auto; height: 26px; padding: 0 10px; font-size: 0.75rem;">+ Ghi lỗi</button>
+            </div>
+
+            <!-- Quick Tag Chips với style btn-violation-chip bo tròn mờ dịu mắt -->
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;">
+              <button class="btn btn-violation-chip" id="tag-vang-khong-phep">Vắng không phép</button>
+              <button class="btn btn-violation-chip" id="tag-vang-co-phep">Vắng có phép</button>
+              <button class="btn btn-violation-chip" id="tag-di-muon">Đi muộn</button>
+              <button class="btn btn-violation-chip" id="tag-khong-bai-tap">Không làm bài tập</button>
+              <button class="btn btn-violation-chip" id="tag-khong-chuan-bi">Không chuẩn bị bài</button>
+            </div>
+
+            <div id="detail-student-violations-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ────────────── POPUPS & MODALS ────────────── -->
+
+  <!-- Image/File Preview Modal -->
+  <div class="modal-overlay" id="preview-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="position: relative; max-width: 90vw; max-height: 90vh; background: var(--bg-secondary); border-radius: var(--border-radius-md); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4 id="modal-preview-title" style="font-size: 1rem; font-weight: 700;">Xem file</h4>
+        <button id="modal-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+      <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <img id="modal-preview-img" src="" alt="Preview" style="max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px;" />
+      </div>
+      <a id="modal-download-btn" href="#" download class="btn btn-primary" style="text-decoration: none;">Tải file xuống</a>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settings-modal" style="display: none;">
+    <button class="modal-close" id="settings-close-btn">✕</button>
+    <div class="modal-content" style="max-width: 500px; padding: 20px;">
+      <h3>Cấu hình Firebase</h3>
+      <textarea id="firebase-config-input" class="input-field" style="width: 100%; height: 120px;"></textarea>
+      <button class="btn btn-primary" id="btn-save-settings" style="margin-top: 10px; width: 100%;">Lưu</button>
+    </div>
+  </div>
+
+  <!-- Quick Info Vault Modal -->
+  <div class="modal-overlay" id="quick-info-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 480px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--gold);">Kho Thông Tin Nhanh (Vault)</h3>
+        <button id="quick-info-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <input type="text" id="quick-info-title-input" class="input-field" placeholder="Tiêu đề (VD: Số TK Ngân hàng)" style="height: 36px; padding: 0 10px; font-size: 0.85rem;" />
+        <textarea id="quick-info-value-input" class="input-field" placeholder="Nội dung cần lưu trữ nhanh..." style="height: 70px; padding: 8px 10px; font-size: 0.85rem; resize: vertical;"></textarea>
+        <div id="quick-info-btn-group" style="display: flex; gap: 8px;">
+          <button class="btn btn-primary" id="btn-add-quick-info" style="height: 34px; font-size: 0.8rem;">+ Thêm Thông Tin</button>
+        </div>
+      </div>
+
+      <div id="quick-info-search-wrapper" style="position: relative;">
+        <input type="text" id="quick-info-search-input" class="input-field" placeholder="Tìm thông tin nhanh..." style="width: 100%; height: 34px; padding: 0 10px; font-size: 0.8rem;" />
+      </div>
+
+      <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">
+        Danh sách thông tin (<span id="quick-info-count">0</span>)
+      </div>
+
+      <div id="quick-info-list-container" style="max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+    </div>
+  </div>
+
+  <!-- Class Config Modal -->
+  <div class="modal-overlay" id="class-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="class-modal-title" style="font-size: 1.1rem; font-weight: 700;">Tạo Lớp Học</h3>
+        <button id="class-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+
+      <div>
+        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Tên Lớp Học *</label>
+        <input type="text" id="class-name-input" class="input-field" placeholder="VD: NLP Master K12" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="font-size: 0.8rem; font-weight: 600;">Trường thông tin sinh viên tùy chỉnh</label>
+          <button class="btn" id="btn-add-custom-field" style="width: auto; height: 26px; padding: 0 8px; font-size: 0.72rem;">+ Thêm trường</button>
+        </div>
+        <div id="class-fields-list-builder" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
+      </div>
+
+      <button class="btn btn-primary" id="btn-save-class" style="height: 38px; font-size: 0.85rem;">Lưu Cấu Hình Lớp</button>
+    </div>
+  </div>
+
+  <!-- Student Info Modal -->
+  <div class="modal-overlay" id="student-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="student-modal-title" style="font-size: 1.1rem; font-weight: 700;">Thêm Sinh Viên</h3>
+        <button id="student-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+
+      <div id="student-fields-container" style="display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto;"></div>
+
+      <button class="btn btn-primary" id="btn-save-student" style="height: 38px; font-size: 0.85rem;">Lưu Sinh Viên</button>
+    </div>
+  </div>
+
+  <!-- Violation Log Modal -->
+  <div class="modal-overlay" id="violation-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 400px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.05rem; font-weight: 700;">Ghi Lỗi Vi Phạm</h3>
+        <button id="violation-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Sinh viên: <strong id="violation-student-name" style="color: var(--text-main);"></strong></p>
+
+      <div>
+        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Nội dung vi phạm / Ghi chú *</label>
+        <input type="text" id="violation-content-input" class="input-field" placeholder="VD: Đi muộn 15 phút" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
+      </div>
+
+      <div>
+        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;">Ngày vi phạm</label>
+        <input type="date" id="violation-date-input" class="input-field" style="width: 100%; height: 36px; padding: 0 10px; font-size: 0.85rem;" />
+      </div>
+
+      <button class="btn btn-primary" id="btn-save-violation" style="height: 38px; font-size: 0.85rem;">Xác Nhận Ghi Lỗi</button>
+    </div>
+  </div>
+
+  <!-- Violation History Modal -->
+  <div class="modal-overlay" id="violation-history-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 440px; max-width: 95vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.05rem; font-weight: 700;">Lịch Sử Vi Phạm - <span id="violation-history-student-name-span"></span></h3>
+        <button id="violation-history-close-btn" style="background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;">✕</button>
+      </div>
+
+      <div id="violation-history-list" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+    </div>
+  </div>
+
+  <!-- Standard Confirmation Dialog Modal -->
+  <div class="modal-overlay" id="confirm-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 3000; align-items: center; justify-content: center;">
+    <div class="modal-card" style="width: 380px; max-width: 90vw; background: var(--bg-secondary); border: 1px solid var(--border-medium); border-radius: var(--border-radius-lg); padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <div id="confirm-modal-icon-container" style="width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"></div>
+      <h3 id="confirm-modal-title" style="font-size: 1.1rem; font-weight: 700;">Xác Nhận</h3>
+      <p id="confirm-modal-message" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;"></p>
+      <div style="display: flex; gap: 10px; width: 100%; margin-top: 6px;">
+        <button class="btn" id="btn-confirm-cancel" style="flex: 1; height: 38px;">Hủy Bỏ</button>
+        <button class="btn" id="btn-confirm-ok" style="flex: 1; height: 38px;">Đồng Ý</button>
       </div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div class="toast-container" id="toast-container"></div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" style="position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 4000; pointer-events: none;"></div>
 
-  <!-- Mobile Sidebar Overlay -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-  <!-- App Logic Scripts -->
+  <!-- Application Logic (ES Module) -->
   <script type="module" src="app.js"></script>
+
 </body>
 </html>

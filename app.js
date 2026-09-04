@@ -4864,87 +4864,69 @@ function setupEventListeners() {
     renderQuickInfos();
   });
 
-  // --- CLASSROOM EVENT LISTENERS (Only attach if classroom DOM elements exist) ---
-  if (DOM.btnSidebarTabClasses) {
-    if (DOM.btnSidebarTabCalendar) DOM.btnSidebarTabCalendar.addEventListener('click', () => switchMode('notepad'));
-    DOM.btnSidebarTabClasses.addEventListener('click', () => switchMode('classroom'));
+  // --- CLASSROOM EVENT LISTENERS ---
+  DOM.btnSidebarTabCalendar.addEventListener('click', () => switchMode('notepad'));
+  DOM.btnSidebarTabClasses.addEventListener('click', () => switchMode('classroom'));
+  
+  // Classes
+  DOM.btnSidebarAddClass.addEventListener('click', () => openClassModal());
+  DOM.classCloseBtn.addEventListener('click', () => DOM.classModal.classList.remove('active'));
+  DOM.classModal.addEventListener('click', (e) => {
+    if (e.target === DOM.classModal) DOM.classModal.classList.remove('active');
+  });
+  DOM.btnSaveClass.addEventListener('click', addOrUpdateClass);
+  DOM.btnAddCustomField.addEventListener('click', () => {
+    const newFieldId = 'f_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    classModalFields.push({
+      id: newFieldId,
+      name: '',
+      type: 'text'
+    });
+    renderClassFieldsBuilder();
     
-    // Classes
-    if (DOM.btnSidebarAddClass) DOM.btnSidebarAddClass.addEventListener('click', () => openClassModal());
-    if (DOM.classCloseBtn) DOM.classCloseBtn.addEventListener('click', () => DOM.classModal && DOM.classModal.classList.remove('active'));
-    if (DOM.classModal) {
-      DOM.classModal.addEventListener('click', (e) => {
-        if (e.target === DOM.classModal) DOM.classModal.classList.remove('active');
-      });
-    }
-    if (DOM.btnSaveClass) DOM.btnSaveClass.addEventListener('click', addOrUpdateClass);
-    if (DOM.btnAddCustomField) {
-      DOM.btnAddCustomField.addEventListener('click', () => {
-        const newFieldId = 'f_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-        classModalFields.push({
-          id: newFieldId,
-          name: '',
-          type: 'text'
-        });
-        renderClassFieldsBuilder();
-        
-        setTimeout(() => {
-          const inputs = DOM.classFieldsListBuilder && DOM.classFieldsListBuilder.querySelectorAll('input[type="text"]');
-          if (inputs && inputs.length > 0) {
-            inputs[inputs.length - 1].focus();
-          }
-        }, 50);
-      });
-    }
-    if (DOM.classNameInput) {
-      DOM.classNameInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') addOrUpdateClass();
-      });
-    }
-    
-    // Students
-    if (DOM.studentCloseBtn) DOM.studentCloseBtn.addEventListener('click', () => DOM.studentModal && DOM.studentModal.classList.remove('active'));
-    if (DOM.studentModal) {
-      DOM.studentModal.addEventListener('click', (e) => {
-        if (e.target === DOM.studentModal) DOM.studentModal.classList.remove('active');
-      });
-    }
-    if (DOM.btnSaveStudent) DOM.btnSaveStudent.addEventListener('click', addOrUpdateStudent);
-    if (DOM.classroomStudentSearch) {
-      DOM.classroomStudentSearch.addEventListener('input', () => {
-        renderStudents();
-      });
-    }
-    
-    // Violation
-    if (DOM.violationCloseBtn) DOM.violationCloseBtn.addEventListener('click', () => DOM.violationModal && DOM.violationModal.classList.remove('active'));
-    if (DOM.violationModal) {
-      DOM.violationModal.addEventListener('click', (e) => {
-        if (e.target === DOM.violationModal) DOM.violationModal.classList.remove('active');
-      });
-    }
-    if (DOM.btnSaveViolation) DOM.btnSaveViolation.addEventListener('click', saveViolation);
-    if (DOM.violationContentInput) {
-      DOM.violationContentInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') saveViolation();
-      });
-    }
+    setTimeout(() => {
+      const inputs = DOM.classFieldsListBuilder.querySelectorAll('input[type="text"]');
+      if (inputs.length > 0) {
+        inputs[inputs.length - 1].focus();
+      }
+    }, 50);
+  });
+  DOM.classNameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addOrUpdateClass();
+  });
+  
+  // Students
+  DOM.studentCloseBtn.addEventListener('click', () => DOM.studentModal.classList.remove('active'));
+  DOM.studentModal.addEventListener('click', (e) => {
+    if (e.target === DOM.studentModal) DOM.studentModal.classList.remove('active');
+  });
+  DOM.btnSaveStudent.addEventListener('click', addOrUpdateStudent);
+  DOM.classroomStudentSearch.addEventListener('input', () => {
+    renderStudents();
+  });
+  
+  // Violation
+  DOM.violationCloseBtn.addEventListener('click', () => DOM.violationModal.classList.remove('active'));
+  DOM.violationModal.addEventListener('click', (e) => {
+    if (e.target === DOM.violationModal) DOM.violationModal.classList.remove('active');
+  });
+  DOM.btnSaveViolation.addEventListener('click', saveViolation);
+  DOM.violationContentInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') saveViolation();
+  });
 
-    // Violation quick tags
-    if (DOM.tagVangKhongPhep) DOM.tagVangKhongPhep.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Vắng học không phép'; });
-    if (DOM.tagVangCoPhep) DOM.tagVangCoPhep.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Vắng học có phép'; });
-    if (DOM.tagDiMuon) DOM.tagDiMuon.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Đi muộn'; });
-    if (DOM.tagKhongBaiTap) DOM.tagKhongBaiTap.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Không làm bài tập'; });
-    if (DOM.tagKhongChuanBi) DOM.tagKhongChuanBi.addEventListener('click', () => { if (DOM.violationContentInput) DOM.violationContentInput.value = 'Không chuẩn bị bài'; });
-    
-    // Violation History
-    if (DOM.violationHistoryCloseBtn) DOM.violationHistoryCloseBtn.addEventListener('click', () => DOM.violationHistoryModal && DOM.violationHistoryModal.classList.remove('active'));
-    if (DOM.violationHistoryModal) {
-      DOM.violationHistoryModal.addEventListener('click', (e) => {
-        if (e.target === DOM.violationHistoryModal) DOM.violationHistoryModal.classList.remove('active');
-      });
-    }
-  }
+  // Violation quick tags
+  DOM.tagVangKhongPhep.addEventListener('click', () => DOM.violationContentInput.value = 'Vắng học không phép');
+  DOM.tagVangCoPhep.addEventListener('click', () => DOM.violationContentInput.value = 'Vắng học có phép');
+  DOM.tagDiMuon.addEventListener('click', () => DOM.violationContentInput.value = 'Đi muộn');
+  DOM.tagKhongBaiTap.addEventListener('click', () => DOM.violationContentInput.value = 'Không làm bài tập');
+  DOM.tagKhongChuanBi.addEventListener('click', () => DOM.violationContentInput.value = 'Không chuẩn bị bài');
+  
+  // Violation History
+  DOM.violationHistoryCloseBtn.addEventListener('click', () => DOM.violationHistoryModal.classList.remove('active'));
+  DOM.violationHistoryModal.addEventListener('click', (e) => {
+    if (e.target === DOM.violationHistoryModal) DOM.violationHistoryModal.classList.remove('active');
+  });
 }
 
 // Start application
